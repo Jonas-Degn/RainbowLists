@@ -1,0 +1,38 @@
+/* GLOBAL CSS */
+
+.ui-mobile .ui-page-active {
+    overflow-x: auto !important;
+}
+
+body {
+	font-family: arial;
+	margin: 0px;
+	background-color: #eee;
+	font-size: 10px;
+	-moz-user-select:-moz-none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    -khtml-user-select':'none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none
+}
+
+.center {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.left {
+    text-align: left;
+}
+
+form {
+    text-align: left;
+}
+
+label {
+    width: 40%;
+    float: left;
+    line-height: 3.8em;
+}
