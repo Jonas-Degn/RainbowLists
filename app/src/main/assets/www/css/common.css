@@ -4,35 +4,130 @@
     overflow-x: auto !important;
 }
 
-body {
-	font-family: arial;
-	margin: 0px;
-	background-color: #eee;
-	font-size: 10px;
+/* This is really one big mess... */
+
+body{
+	background-color: #282828;
 	-moz-user-select:-moz-none;
     -moz-user-select:none;
     -o-user-select:none;
     -khtml-user-select':'none;
     -webkit-user-select:none;
     -ms-user-select:none;
-    user-select:none
+    user-select:none;
+    font-size: 10px;
 }
-
-.center {
-    text-align: center;
-    margin-left: auto;
+div.body{
+	position:relative;
+	background-color:white;
+	margin-left: auto;
     margin-right: auto;
+	overflow:hidden;
 }
-.left {
-    text-align: left;
+div.top_curve img{
+	position: fixed;
+	top: 0;
+	width:100%;
+	height:auto;
+}
+div.main_area{
+	width: 100%;
+	-webkit-overflow-scrolling: touch;
 }
 
-form {
-    text-align: left;
+.main_area::-webkit-scrollbar { width: 0 !important }
+
+div.list_block{
+	font-family: Arial;
+	color: #222222;
+	font-size: 3em;
+	height: 3em;
+	font-weight: 300;
+	line-height: 3em;
+	padding-left: 1em;
 }
 
-label {
-    width: 40%;
-    float: left;
-    line-height: 3.8em;
+.threeDots {
+    height: 70%;
+    padding-top: 0.3em;
+    padding-right: 0.5em;
+    float:right;
 }
+
+.listLine {
+    width: 100%;
+    float: right;
+}
+
+div.bottom_piece{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	height:4em;
+}
+
+div.bot_curve{
+	position:relative;
+	width:100%;
+	height:auto;
+	z-index:1;
+	top:0.7em;
+}
+
+div.bot_curve img{
+	width:100%;
+	height:auto;
+}
+
+div.left_button{
+	position:relative;
+	display:block;
+	width:50%;
+	text-align:center;
+	float:left;
+	background-color:#f2594b;
+}
+
+div.left_button:active{
+	background-image:url("../images/l_button_active.png");
+	background-repeat: no-repeat;
+	background-position: bottom left;
+}
+
+div.left_button_image img{
+	width:30%;
+	padding-top:1em;
+	padding-bottom:2em;
+	height:auto;
+}
+
+div.right_button{
+	position:relative;
+	display:block;
+	width:50%;
+	text-align:center;
+	float:right;
+	background-color:#f2594b;
+}
+
+div.right_button:active{
+	background-image:url("../images/r_button_active.png");
+	background-repeat: no-repeat;
+	background-position: bottom right;
+}
+
+div.right_button_image img{
+	width:30%;
+	padding-top:1em;
+	padding-bottom:2em;
+	height:auto;
+}
+
+#list_button_text{
+	font-family: Arial;
+	color: #FFFFFF;
+	font-size: 1.3em;
+	padding-bottom: 1em;
+	white-space: nowrap;
+}
+
