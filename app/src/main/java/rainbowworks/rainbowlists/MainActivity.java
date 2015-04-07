@@ -15,6 +15,7 @@ public class MainActivity extends ActionBarActivity {
     String currentPage;
     public static AssetManager am;
     private JavaInterface jsInterface;
+    private DatabaseHandler dbh;
 
     /*
      * Create application
@@ -24,8 +25,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
-
         am = this.getAssets();
+        dbh = new DatabaseHandler("rainbowData", this);
 
         jsInterface = new JavaInterface(this);
         webView = (WebView)findViewById(R.id.mainWebView);
