@@ -3,10 +3,10 @@ package rainbowworks.rainbowlists;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
-public class JavascriptInterface {
+public class JavaInterface {
     static MainActivity activity;
 
-    public JavascriptInterface(MainActivity act) {
+    public JavaInterface(MainActivity act) {
         activity = act;
     }
 

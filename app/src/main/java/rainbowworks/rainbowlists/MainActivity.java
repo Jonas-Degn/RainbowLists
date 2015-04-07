@@ -14,7 +14,7 @@ public class MainActivity extends ActionBarActivity {
     WebView webView;
     String currentPage;
     public static AssetManager am;
-    private JavascriptInterface jsInterface;
+    private JavaInterface jsInterface;
 
     /*
      * Create application
@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
 
         am = this.getAssets();
 
-        jsInterface = new JavascriptInterface(this);
+        jsInterface = new JavaInterface(this);
         webView = (WebView)findViewById(R.id.mainWebView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
