@@ -1,34 +1,34 @@
 package rainbowworks.rainbowlists;
 
-import android.content.res.AssetManager;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 public class MainActivity extends ActionBarActivity {
-    MenuItem register;
-    WebView webView;
-    String currentPage;
-    public static AssetManager am;
+    private MenuItem register;
+    private WebView webView;
+    private String currentPage;
     private JavaInterface jsInterface;
     private DatabaseHandler dbh;
+    // - no list class yet; private HashMap<Integer, List> lists;
 
     /*
      * Create application
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
-        am = this.getAssets();
-        dbh = new DatabaseHandler("rainbowData", this);
 
+        dbh = new DatabaseHandler(this);
         jsInterface = new JavaInterface(this);
+
         webView = (WebView)findViewById(R.id.mainWebView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity {
     /*
      * For when the page is changed directly in frontend
      */
-    public void setLocation(String file) {
+    protected void setLocation(String file) {
         currentPage = file;
         invalidateOptionsMenu();
     }
@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
     /*
      * Change webview page from backend
      */
-    public void loadUrl(final String file) {
+    protected void loadUrl(final String file) {
         setLocation(file);
         webView.post(new Runnable() {
             @Override
@@ -63,15 +63,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-    }
-    public void loadUrl(final String file, final String parameters) {
-        setLocation(file);
-        webView.post(new Runnable() {
-            @Override
-            public void run() {
-                webView.loadUrl("file:///android_asset/www/"+file+".html?"+parameters);
-            }
-        });
     }
 
     /*
@@ -139,18 +130,25 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
+            WebBackForwardList history = webView.copyBackForwardList();
+            String lastURL = history.getItemAtIndex(history.getCurrentIndex()-1).getOriginalUrl();
+            setLocation(lastURL.replace("file:///android_asset/www/", "").replace(".html", ""));
             webView.goBack();
-            setLocation(webView.getOriginalUrl().replace("file:///android_asset/www/","").replace(".html",""));
             return;
         }
         super.onBackPressed();
     }
 
-    public void onStop() {
-        super.onStop();
+    protected DatabaseHandler getDBH() {
+        return dbh;
     }
 
-    public void onRestart() {
-        super.onRestart();
+    /*Lacking List class here as well;
+    protected List getList(int listID) {
+        return lists.get(listID);
     }
+
+    protected HashMap<Integer, List> getLists() {
+        return lists;
+    }*/
 }
