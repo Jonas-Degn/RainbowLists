@@ -3,6 +3,7 @@ package rainbowworks.rainbowlists;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dimitar on 7.4.2015 г..
@@ -22,14 +23,15 @@ public class DatabaseHandler{
         db.execSQL(sql);
     }
 
-    protected ArrayList[][] load(String sql) {
+    protected List<List<String>> load(String sql) {
         Cursor c=db.rawQuery(sql, null);
         //2-dim Arraylist. getCount() returns ROWS COUNT
-        ArrayList[][] stringArray = new ArrayList[c.getCount()][c.getColumnCount()];
+        List<List<String>> stringArray = new ArrayList<List<String>>(c.getCount());
 
         for (int i=0; c.moveToNext(); i++){
+            stringArray.add(new ArrayList<String>(c.getColumnCount()));
             for (int k = 0; k < c.getColumnCount(); k++) {
-                stringArray[i][k].add(c.getString(k));
+                stringArray.get(i).add(c.getString(k));
             }
         }
 
