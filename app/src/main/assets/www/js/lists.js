@@ -1,3 +1,15 @@
+$(document).on("pagecreate", function(event,ui) {
+    $(".bot_curve").on("tap", function() {
+        if (parseInt($(".bottom_piece").css("buttom").replace("px","")) > 0) {
+            $(".bottom_piece").animate({bottom: "0"});
+        }
+        else {
+            $(".bottom_piece").animate({bottom: "4em"});
+        }
+    });
+});
+
+
 function loadLists() {
     var $content = $(".main_area");
     var $shopping = $("#shopping");
