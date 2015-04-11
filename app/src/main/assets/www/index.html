@@ -9,52 +9,14 @@
     <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="js/lists.js"></script>
-    <title>Shopping lists</title>
+    <title>Lists</title>
 </head>
 <body>
 <div class="body">
     <div class="top_curve"><img src="images/top_piece_curve.png"></div>
     <div class="main_area">
-        <div class="list_block">
-            My Shopping List 1
-            <img class="threeDots" src="images/3_dots_list.png">
-            <img class="listLine" src="images/list_line.png">
-        </div>
-        <div class="list_block">
-            My Shopping List 2
-            <img class="threeDots" src="images/3_dots_list.png">
-            <img class="listLine" src="images/list_line.png">
-        </div>
-        <div class="list_block">
-            My Shopping List 3
-            <img class="threeDots" src="images/3_dots_list.png">
-            <img class="listLine" src="images/list_line.png">
-        </div>
-        <div class="list_block">
-            My Shopping List 4
-            <img class="threeDots" src="images/3_dots_list.png">
-            <img class="listLine" src="images/list_line.png">
-        </div>
-        <div class="list_block">
-            My Shopping List 5
-            <img class="threeDots" src="images/3_dots_list.png">
-            <img class="listLine" src="images/list_line.png">
-        </div>
-        <div class="list_block">
-            My Shopping List 6
-            <img class="threeDots" src="images/3_dots_list.png">
-            <img class="listLine" src="images/list_line.png">
-        </div>
-        <div class="list_block">
-            My Shopping List 7
-            <img class="threeDots" src="images/3_dots_list.png">
-            <img class="listLine" src="images/list_line.png">
-        </div>
-        <div class="list_block">
-            My Shopping List 8
-            <img class="threeDots" src="images/3_dots_list.png">
-            <img class="listLine" src="images/list_line.png">
-        </div>
+        <div id="shopping">Shopping lists</div>
+        <div id="pantry">Pantry lists</div>
     </diV>
     <div class="bottom_piece">
         <div class="bot_curve"><img src="images/bottom_piece_top.png"></div>
@@ -73,6 +35,9 @@
         <div style="clear:both;"></div>
     </div>
 </div>
+<script type="text/javascript">
+    loadLists();
+</script>
 </body>
 
 </html>
