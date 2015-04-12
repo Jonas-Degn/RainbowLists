@@ -37,10 +37,10 @@ function loadLists() {
 
 function prepareButtons() {
     $(".left_button").on("tap", function() {
-        window.JSInterface.messageDialog("You pressed something","Actually you pressed left button");
+        window.JSInterface.messageDialog("You pressed something","You pressed LEFT button!!!");
     });
     $(".right_button").on("tap", function() {
-        window.JSInterface.messageDialog("You pressed something","Actually you pressed right button");
+        window.JSInterface.messageDialog("You pressed something","You pressed RIGHT button!!!");
     });
 
     $(".bot_curve").on("tap", function() {
