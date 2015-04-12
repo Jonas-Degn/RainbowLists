@@ -25,6 +25,7 @@ proguard/
 
 # Log Files
 *.log
+Thumbs.db
 
 # Intellij IDEA files
 .idea/
