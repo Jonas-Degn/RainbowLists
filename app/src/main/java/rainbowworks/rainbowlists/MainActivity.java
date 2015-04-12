@@ -83,6 +83,9 @@ public class MainActivity extends ActionBarActivity {
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        register = menu.findItem(R.id.action_search);
+        register.setVisible(currentPage != null);
+
         register = menu.findItem(R.id.action_settings);
         register.setVisible(currentPage != null);
 
@@ -94,6 +97,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
+            case R.id.action_search:
+                onCreateOptionsMenu((Menu) register);
+                break;
             case R.id.action_settings:
                 jsInterface.runJS("loadPage('settings.html')");
                 break;

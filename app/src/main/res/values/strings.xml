@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_quit">Exit</string>
     <string name="search_hint">Search</string>
+    <string name="search">Search</string>
+    <item name="menu_search" type="id">menuSearch</item>
 </resources>
