@@ -1,21 +1,23 @@
 package rainbowworks.rainbowlists;
 
+import java.util.HashMap;
+
 /**
  * Created by nikolaj on 4/7/15.
  */
-public class List {
+public class RainbowList {
     private int id;
     private String name;
     private String type;
-    private Item[] items = new Item[100];
+    private HashMap<Integer, Item> items;
 
-    public List (int id, String name, String type) {
+    public RainbowList (int id, String name, String type) {
         this.id = id;
         this.name = name;
         this.type = type;
     }
 
-    protected int getId () {
+    protected int getID () {
         return id;
     }
 
@@ -36,9 +38,10 @@ public class List {
     }
 
     protected void addItem (int id, String name, int quantity) {
-        Item item = new Item(id, name, quantity);
+        items.put(id, new Item(id, name, quantity));
     }
 
+    /* Not functional yet, keeping commented to not break build
     protected Item getItem(int searchId) {
         boolean search = true;
         while (search) {
@@ -46,7 +49,7 @@ public class List {
             search = false;
         }
         return
-    }
+    }*/
 
 
 }

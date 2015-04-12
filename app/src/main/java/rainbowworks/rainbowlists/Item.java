@@ -16,7 +16,7 @@ public class Item {
         this.isChecked = false;
     }
 
-    protected int getId () {
+    protected int getID () {
         return id;
     }
 
