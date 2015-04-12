@@ -29,20 +29,11 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setElevation(0);
 
         dbh = new DatabaseHandler(this);
-        jsInterface = new JavaInterface(this);
+        jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
 
-        webView = (WebView)findViewById(R.id.mainWebView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.addJavascriptInterface(jsInterface, "JSInterface");
-        webView.setWebChromeClient(new WebChromeClient());
         if (savedInstanceState == null) {
-            webView.loadUrl("file:///android_asset/www/index.html");
+            jsInterface.webView.loadUrl("file:///android_asset/www/index.html");
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.setWebContentsDebuggingEnabled(true);
-        }
-
         currentPage = "index";
     }
     /*
@@ -51,20 +42,6 @@ public class MainActivity extends ActionBarActivity {
     protected void setLocation(String file) {
         currentPage = file;
         invalidateOptionsMenu();
-    }
-
-    /*
-     * Change webview page from backend
-     */
-    protected void loadUrl(final String file) {
-        setLocation(file);
-        webView.post(new Runnable() {
-            @Override
-            public void run() {
-                webView.loadUrl("file:///android_asset/www/"+file+".html");
-            }
-        });
-
     }
 
     /*
@@ -118,7 +95,8 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_settings:
-                return true; // INSERT SETTINGS MENU HERE
+                jsInterface.runJS("loadPage('settings.html')");
+                break;
             case R.id.action_quit:
                 this.finish();
                 System.exit(0);
@@ -131,11 +109,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        if (webView.canGoBack()) {
-            WebBackForwardList history = webView.copyBackForwardList();
-            String lastURL = history.getItemAtIndex(history.getCurrentIndex()-1).getOriginalUrl();
-            setLocation(lastURL.replace("file:///android_asset/www/", "").replace(".html", ""));
-            webView.goBack();
+        if (!currentPage.equals("listOverview")) {
+            jsInterface.runJS("loadPage('listOverview.html')");
             return;
         }
         super.onBackPressed();

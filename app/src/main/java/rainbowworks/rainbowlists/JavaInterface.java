@@ -2,6 +2,10 @@ package rainbowworks.rainbowlists;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,9 +14,30 @@ import java.util.Map;
 
 public class JavaInterface {
     static MainActivity activity;
+    static WebView webView;
 
-    public JavaInterface(MainActivity act) {
+    public JavaInterface(MainActivity act, WebView newWebView) {
         activity = act;
+        webView = newWebView;
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setBuiltInZoomControls(false);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.getSettings().setAllowContentAccess(true);
+        webView.getSettings().setAppCacheEnabled(true);
+
+        webView.addJavascriptInterface(this, "JSInterface");
+        webView.setWebChromeClient(new WebChromeClient());
+
+        // DAMN IT MOTHERFUCKER - old phones can't debug :(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webView.setWebContentsDebuggingEnabled(true);
+        }
+        if (Build.VERSION.SDK_INT < 18) {
+            webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        }
     }
 
     @android.webkit.JavascriptInterface
@@ -23,18 +48,21 @@ public class JavaInterface {
     @android.webkit.JavascriptInterface
     public static String loadLists(String type) {
         String foundLists = "";
-
-        for(HashMap.Entry<Integer, RainbowList> entry : activity.getLists().entrySet()) {
-            int id = entry.getKey();
-            RainbowList list = entry.getValue();
-            if (list.getType().equals(type)) {
-                if (foundLists.equals("")) {
-                    foundLists += list.getID()+","+list.getName();
-                }
-                else {
-                    foundLists += ";"+list.getID()+","+list.getName();
+        try {
+            for (HashMap.Entry<Integer, RainbowList> entry : activity.getLists().entrySet()) {
+                int id = entry.getKey();
+                RainbowList list = entry.getValue();
+                if (list.getType().equals(type)) {
+                    if (foundLists.equals("")) {
+                        foundLists += list.getID() + "," + list.getName();
+                    } else {
+                        foundLists += ";" + list.getID() + "," + list.getName();
+                    }
                 }
             }
+        }
+        catch (NullPointerException e) {
+            return "";
         }
         return foundLists;
     }
@@ -98,7 +126,16 @@ public class JavaInterface {
     }
 
     @android.webkit.JavascriptInterface
-    public static void messageDiaglog(String header, String text) {
+    public static void createList (String data) {
+        String[] newData = data.split(";");
+        int id = Integer.parseInt(newData[0]);
+        String name = newData[1];
+
+        // Now add this information to the
+    }
+
+    @android.webkit.JavascriptInterface
+    public static void messageDialog(String header, String text) {
         new AlertDialog.Builder(activity)
             .setTitle(header)
             .setMessage(text)
@@ -109,5 +146,19 @@ public class JavaInterface {
             })
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show();
+    }
+
+    @android.webkit.JavascriptInterface
+    public static void setLocation(String file) {
+        activity.setLocation(file);
+    }
+
+    public static void runJS(final String scriptSrc) {
+        webView.post(new Runnable() {
+            @Override
+            public void run() {
+                webView.loadUrl("javascript:" + scriptSrc);
+            }
+        });
     }
 }

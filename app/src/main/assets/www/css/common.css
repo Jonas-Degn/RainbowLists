@@ -3,6 +3,23 @@
 .ui-mobile .ui-page-active {
     overflow-x: auto !important;
 }
+.ui-icon-loading {
+    background:url(../images/ajax-loader.gif) no-repeat;
+    background-size: 100%;
+}
+.ui-loader-default {
+    opacity: 0;
+    filter: Alpha(Opacity=0);
+    border-radius: 2.25em;
+
+}
+.ui-loader .ui-icon-loading {
+    background-color: #fff;
+}
+.ui-loader {
+    left: 46%;
+    top: 90%;
+}
 
 /* This is really one big mess... */
 
@@ -32,7 +49,7 @@ div.top_curve img{
 }
 div.main_area{
 	width: 100%;
-	-webkit-overflow-scrolling: touch;
+	margin-top: 1.7em;
 }
 
 .main_area::-webkit-scrollbar { width: 0 !important }
