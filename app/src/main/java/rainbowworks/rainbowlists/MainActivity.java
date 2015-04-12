@@ -9,13 +9,15 @@ import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
+import java.util.HashMap;
+
 public class MainActivity extends ActionBarActivity {
     private MenuItem register;
     private WebView webView;
     private String currentPage;
     private JavaInterface jsInterface;
     private DatabaseHandler dbh;
-    // - no list class yet; private HashMap<Integer, List> lists;
+    private HashMap<Integer, RainbowList> lists;
 
     /*
      * Create application
@@ -143,12 +145,11 @@ public class MainActivity extends ActionBarActivity {
         return dbh;
     }
 
-    /*Lacking List class here as well;
-    protected List getList(int listID) {
+    protected RainbowList getList(int listID) {
         return lists.get(listID);
     }
 
-    protected HashMap<Integer, List> getLists() {
+    protected HashMap<Integer, RainbowList> getLists() {
         return lists;
-    }*/
+    }
 }
