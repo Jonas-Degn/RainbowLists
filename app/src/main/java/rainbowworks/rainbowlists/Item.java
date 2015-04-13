@@ -1,5 +1,18 @@
 package rainbowworks.rainbowlists;
-
+/**
+ * Created by Nicolai on 13-04-2015
+ *
+ * // Import ArrayList
+ * import java.util.ArrayList;
+ *
+ * public class Item {
+ *     public static void man(String[] args {
+ *         // Construct a new empty ArrayList for type String
+ *         ArrayList<String> obj = new ArrayList<String>();
+ *
+ *     }
+ * }
+ */
 /**
  * Created by nikolaj on 4/7/15.
  */
