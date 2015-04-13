@@ -43,14 +43,14 @@ function prepareButtons() {
         window.JSInterface.messageDialog("You pressed something","You pressed RIGHT button!!!");
     });
 
-    $(".bot_curve").on("tap", function() {
+    $(".bot_curve").on("tap swipeup", function() {
         if (parseInt($(".bottom_piece").css("bottom").replace("px","")) > 0) {
             $(".bottom_piece").animate({bottom: "0"});
         }
         else {
             $(".bottom_piece").animate({bottom: "10em"});
         }
-        $(document).on("tap", function(e) {
+        $(document).on("tap swipedown", function(e) {
             if (!$(".left_button").is(e.target) && $(".left_button").has(e.target).length === 0 && !$(".right_button").is(e.target) && $(".right_button").has(e.target).length === 0) {
                 $(".bottom_piece").animate({bottom: "0"});
                 $(document).unbind("tap");
