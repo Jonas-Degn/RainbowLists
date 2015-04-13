@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.support.v7.widget.SearchView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import java.util.HashMap;
 
@@ -21,6 +23,9 @@ public class MainActivity extends ActionBarActivity {
     private JavaInterface jsInterface;
     private DatabaseHandler dbh;
     private HashMap<Integer, RainbowList> lists;
+
+    private static final String[] SUGGESTIONS = {"Milk", "Ham", "Bread"};
+
 
     /*
      * Create application
@@ -75,6 +80,14 @@ public class MainActivity extends ActionBarActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        /*//getting the reference from the activity
+        AutoCompleteTextView actv;
+        actv = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
+
+        String[] countries = getResources().getStringArray(R.array.list_of_countries);
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,countries);
+        actv.setAdapter(adapter);*/
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
