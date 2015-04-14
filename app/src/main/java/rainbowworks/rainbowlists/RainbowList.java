@@ -65,15 +65,22 @@ public class RainbowList {
         items.put(id, new Item(id, name, quantity));
     }
 
-    /* Not functional yet, keeping commented to not break build
     protected Item getItem(int searchId) {
         boolean search = true;
+        int i = 1;
+        Item x = items.get(1);
         while (search) {
-            if ()
-            search = false;
+            x = items.get(i);
+            if (x.getID() == searchId){
+                search = false;
+            }
+            i++;
         }
-        return
-    }*/
+        return x;
+    }
 
+    protected HashMap<Integer, Item> getItems () {
+        return items;
+    }
 
 }
