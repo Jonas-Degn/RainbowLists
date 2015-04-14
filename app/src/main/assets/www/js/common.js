@@ -28,15 +28,31 @@ function loadPage(url) {
 }
 
 function preparePage(url) {
-    if (url == "" || url == "listOverview.html") {
-        loadLists();
-    }
 }
 
 function finishPage(url) {
     if (url == "listOverview.html") {
         setTimeout(function() {
+            loadLists();
             prepareButtons();
         }, 500);
+    }
+}
+
+function sortByFirstColumn(a, b) {
+    if (a[0] === b[0]) {
+        return 0;
+    }
+    else {
+        return (a[0] < b[0]) ? -1 : 1;
+    }
+}
+
+function sortReverseByFirstColumn(a, b) {
+    if (a[0] === b[0]) {
+        return 0;
+    }
+    else {
+        return (a[0] > b[0]) ? -1 : 1;
     }
 }

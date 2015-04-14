@@ -14,8 +14,16 @@ public class DatabaseHandler{
 
     protected DatabaseHandler(MainActivity activity) {
         db = activity.openOrCreateDatabase("rainbowData", activity.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS items (ID INTEGER PRIMARY KEY AUTOINCREMENT, listID INTEGER, name CHAR(32));");
-        db.execSQL("CREATE TABLE IF NOT EXISTS lists (ID INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(32), amount INTEGER);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS items (ID INTEGER PRIMARY KEY AUTOINCREMENT, listID INTEGER, name CHAR(32), amount INTEGER);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS lists (ID INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(32), type CHAR(8));");
+    }
+
+    // A reset method for debugging
+    protected void reset() {
+        db.execSQL("DROP TABLE items");
+        db.execSQL("DROP TABLE lists");
+        db.execSQL("CREATE TABLE IF NOT EXISTS items (ID INTEGER PRIMARY KEY AUTOINCREMENT, listID INTEGER, name CHAR(32), amount INTEGER);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS lists (ID INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(32), type CHAR(8));");
     }
 
     //The sql string contains the command to be passed to execSQL();

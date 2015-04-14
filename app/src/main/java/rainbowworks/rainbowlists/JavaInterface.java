@@ -65,25 +65,24 @@ public class JavaInterface {
         return foundLists;
     }
 
-    /* RainbowList class not done yet
+
     @android.webkit.JavascriptInterface
     public static String loadItems(int listID) {
         String foundItems = "";
         RainbowList currentList = activity.getList(listID);
 
-        for(HashMap.Entry<Integer, Item> entry : currentList.getItems()) {
+        for(HashMap.Entry<Integer, Item> entry : currentList.getItems().entrySet()) {
             int id = entry.getKey();
             Item item = entry.getValue();
-                if (foundItems.equals("")) {
-                    foundItems += item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
-                }
-                else {
-                    foundItems += ";"+item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
-                }
+            if (foundItems.equals("")) {
+                foundItems += item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
+            }
+            else {
+                foundItems += ";"+item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
             }
         }
         return foundItems;
-    }*/
+    }
 
     @android.webkit.JavascriptInterface
     public static String searchLists (String search) {
@@ -161,10 +160,14 @@ public class JavaInterface {
                             case "newShoppingList":
                                 // Save in database new list with name 'input.getText().toString()'
                                 // Add to HashMap 'lists' in MainActivity
+                                activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('"+input.getText().toString()+"','shopping')");
+                                activity.populateLists();
                                 break;
                             case "newPantryList":
                                 // Save in database new list with name 'input.getText().toString()';
                                 // Add to HashMap 'lists' in MainActivity
+                                activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('"+input.getText().toString()+"','pantry')");
+                                activity.populateLists();
                                 break;
                             case "editShoppingList":
                                 // Update in database list with old name 'text' name 'input.getText().toString()'

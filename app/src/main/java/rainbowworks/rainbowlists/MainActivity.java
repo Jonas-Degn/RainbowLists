@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -13,6 +14,7 @@ import android.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
     private MenuItem register;
@@ -35,8 +37,10 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setElevation(0);
 
         dbh = new DatabaseHandler(this);
-        jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
+        dbh.reset();
+        populateLists();
 
+        jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
         if (savedInstanceState == null) {
             JavaInterface.webView.loadUrl("file:///android_asset/www/index.html");
         }
@@ -192,5 +196,34 @@ public class MainActivity extends ActionBarActivity {
 
     protected HashMap<Integer, RainbowList> getLists() {
         return lists;
+    }
+
+    protected void populateLists() {
+        lists = new HashMap<Integer, RainbowList>();
+        List<List<String>> newLists = dbh.load("SELECT * FROM lists");
+        for(List<String> row : newLists) {
+            int count = 0;
+            int id = 0;
+            String name = "empty";
+            String type = "none";
+            for (String column : row) {
+                switch(count) {
+                    case 0:
+                        id = Integer.parseInt(column);
+                        break;
+                    case 1:
+                        name = column;
+                        break;
+                    case 2:
+                        type = column;
+                        break;
+                    default:
+                        Log.i("Column",column+" is not populated");
+                }
+                count ++;
+            }
+
+            lists.put(new Integer(id),new RainbowList(id,name,type));
+        }
     }
 }

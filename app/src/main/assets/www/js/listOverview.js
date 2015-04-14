@@ -1,36 +1,47 @@
 function loadLists() {
     var $content = $(".main_area");
+    $content.html('<div id="shopping" class="list_block">Shopping lists</div><div id="pantry" class="list_block">Pantry lists</div>');
+
+    // SHOPPING
     var $shopping = $("#shopping");
-    var $pantry = $("#pantry");
     var shoppingData = window.JSInterface.loadLists("shopping");
-    var pantryData = window.JSInterface.loadLists("pantry");
-
-    $content.html('<div id="shopping">Shopping lists</div><div id="pantry">Pantry lists</div>');
-
+    var newShoppingData = new Array();
     if (shoppingData.length > 0) {
         shoppingData = shoppingData.split(";");
     }
     else {
-        $shopping.after('<div>No shopping lists</div>');
+        $shopping.after('<div class="list_block">No shopping lists</div>');
     }
 
+    for(i = 0; i < shoppingData.length; i++) {
+            var dataFields = shoppingData[i].split(",");
+            newShoppingData.push([parseInt(dataFields[0]), dataFields[1]]);
+    }
+    newShoppingData.sort(sortByFirstColumn);
+    for(i = 0; i < newShoppingData.length; i++) {
+        var id = newShoppingData[i][0];
+        var name = newShoppingData[i][1];
+        $shopping.after('<div id="'+id+'" class="list_block">'+name+' <img class="threeDots" src="images/3_dots_list.png"><img class="listLine" src="images/list_line.png"></div>');
+    }
+
+    // PANTRY
+    var $pantry = $("#pantry");
+    var pantryData = window.JSInterface.loadLists("pantry");
+    var newPantryData = new Array();
     if (pantryData.length > 0) {
         pantryData = pantryData.split(";");
     }
     else {
-        $pantry.after('<div>No shopping lists</div>');
+        $pantry.after('<div class="list_block">No pantry lists</div>');
     }
-
-    for(i = 0; i < shoppingData.length-1; i++) {
-        var dataFields = data.split(",");
-        var id = dataFields[0];
-        var name = dataFields[1];
-        $shopping.after('<div id="'+id+'" class="list_block">'+name+' <img class="threeDots" src="images/3_dots_list.png"><img class="listLine" src="images/list_line.png"></div>');
+    for(i = 0; i < pantryData.length; i++) {
+            var dataFields = pantryData[i].split(",");
+            newPantryData.push([parseInt(dataFields[0]), dataFields[1]]);
     }
-    for(i = 0; i < pantryData.length-1; i++) {
-        var dataFields = data.split(",");
-        var id = dataFields[0];
-        var name = dataFields[1];
+    newPantryData.sort(sortByFirstColumn);
+    for(i = 0; i < newPantryData.length; i++) {
+        var id = newPantryData[i][0];
+        var name = newPantryData[i][1];
         $pantry.after('<div id="'+id+'" class="list_block">'+name+' <img class="threeDots" src="images/3_dots_list.png"><img class="listLine" src="images/list_line.png"></div>');
     }
 }
