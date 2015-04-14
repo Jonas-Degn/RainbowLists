@@ -6,12 +6,10 @@ import android.os.Build;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.EditText;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 public class JavaInterface {
     static MainActivity activity;
     static WebView webView;
@@ -137,15 +135,56 @@ public class JavaInterface {
     @android.webkit.JavascriptInterface
     public static void messageDialog(String header, String text) {
         new AlertDialog.Builder(activity)
-            .setTitle(header)
-            .setMessage(text)
-            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    // Doesn't do anything for now
-                }
-            })
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show();
+                .setTitle(header)
+                .setMessage(text)
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Doesn't do anything for now
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    @android.webkit.JavascriptInterface
+    public static void inputDialog(String header, String description, String text, String okButton, String cancelButton, final String action) {
+        final EditText input = new EditText(activity);
+        input.setText(text);
+
+        new AlertDialog.Builder(activity)
+                .setTitle(header)
+                .setMessage(description)
+                .setView(input)
+                .setPositiveButton(okButton, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch(action) {
+                            case "newShoppingList":
+                                // Save in database new list with name 'input.getText().toString()'
+                                // Add to HashMap 'lists' in MainActivity
+                                break;
+                            case "newPantryList":
+                                // Save in database new list with name 'input.getText().toString()';
+                                // Add to HashMap 'lists' in MainActivity
+                                break;
+                            case "editShoppingList":
+                                // Update in database list with old name 'text' name 'input.getText().toString()'
+                                // Update name in HashMap 'lists' in MainActivity
+                                break;
+                            case "editPantryList":
+                                // Update in database list with old name 'text' name 'input.getText().toString()'
+                                // Update name in HashMap 'lists' in MainActivity
+                                break;
+                        }
+                        runJS("loadPage('"+activity.getLocation()+".html')");
+                    }
+                })
+                .setNegativeButton(cancelButton, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     @android.webkit.JavascriptInterface

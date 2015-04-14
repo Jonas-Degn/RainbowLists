@@ -37,20 +37,20 @@ function loadLists() {
 
 function prepareButtons() {
     $(".left_button").on("tap", function() {
-        window.JSInterface.messageDialog("You pressed something","You pressed LEFT button!!!");
+        window.JSInterface.inputDialog("Create new shopping list", "Please name your new list:", "", "Create", "Cancel", "newShoppingList");
     });
     $(".right_button").on("tap", function() {
-        window.JSInterface.messageDialog("You pressed something","You pressed RIGHT button!!!");
+        window.JSInterface.inputDialog("Create new pantry list", "Please name your new list:", "", "Create", "Cancel", "newPantryList");
     });
 
-    $(".bot_curve").on("tap swipeup", function() {
+    $(".bot_curve").on("tap", function() {
         if (parseInt($(".bottom_piece").css("bottom").replace("px","")) > 0) {
             $(".bottom_piece").animate({bottom: "0"});
         }
         else {
             $(".bottom_piece").animate({bottom: "10em"});
         }
-        $(document).on("tap swipedown", function(e) {
+        $(document).on("tap", function(e) {
             if (!$(".left_button").is(e.target) && $(".left_button").has(e.target).length === 0 && !$(".right_button").is(e.target) && $(".right_button").has(e.target).length === 0) {
                 $(".bottom_piece").animate({bottom: "0"});
                 $(document).unbind("tap");

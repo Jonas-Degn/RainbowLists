@@ -16,7 +16,6 @@ import java.util.HashMap;
 
 public class MainActivity extends ActionBarActivity {
     private MenuItem register;
-    private WebView webView;
     private String currentPage;
     private JavaInterface jsInterface;
     private DatabaseHandler dbh;
@@ -39,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
         jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
 
         if (savedInstanceState == null) {
-            jsInterface.webView.loadUrl("file:///android_asset/www/index.html");
+            JavaInterface.webView.loadUrl("file:///android_asset/www/index.html");
         }
         currentPage = "index";
 
@@ -60,6 +59,9 @@ public class MainActivity extends ActionBarActivity {
         invalidateOptionsMenu();
     }
 
+    protected String getLocation() {
+        return currentPage;
+    }
     /*
      * Save state of webview
      * Used for mechanics that may try to reset webview
@@ -67,8 +69,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onSaveInstanceState(Bundle restoreInstanceState)
     {
-        webView.saveState(restoreInstanceState);
         super.onSaveInstanceState(restoreInstanceState);
+        JavaInterface.webView.saveState(restoreInstanceState);
 
     }
 
@@ -79,8 +81,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
-        webView.restoreState(savedInstanceState);
         super.onRestoreInstanceState(savedInstanceState);
+        JavaInterface.webView.restoreState(savedInstanceState);
     }
 
     /*
@@ -159,7 +161,7 @@ public class MainActivity extends ActionBarActivity {
 
                 break;
             case R.id.action_settings:
-                jsInterface.runJS("loadPage('settings.html')");
+                JavaInterface.runJS("loadPage('settings.html')");
                 break;
             case R.id.action_quit:
                 this.finish();
@@ -174,7 +176,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         if (!currentPage.equals("listOverview")) {
-            jsInterface.runJS("loadPage('listOverview.html')");
+            JavaInterface.runJS("loadPage('listOverview.html')");
             return;
         }
         super.onBackPressed();
