@@ -38,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setElevation(0);
 
         dbh = new DatabaseHandler(this);
-        //dbh.reset();
+        dbh.reset();
         populateLists();
 
         jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
