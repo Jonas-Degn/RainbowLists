@@ -6,6 +6,7 @@ function loadLists() {
     var $shopping = $("#shopping");
     var shoppingData = window.JSInterface.loadLists("shopping");
     var newShoppingData = new Array();
+
     if (shoppingData.length > 0) {
         shoppingData = shoppingData.split(";");
     }
@@ -62,15 +63,20 @@ function loadLists() {
         else {
             $(e.target).animate({left: "100%"}).hide('slow');
         }
-        loadLists();
     });
 }
 
 function prepareButtons() {
     $(".left_button").on("tap", function() {
+        $(".bottom_piece").animate({bottom: "0"});
+        $(".bot_curve").unbind("tap");
+        $(document).unbind("tap");
         window.JSInterface.inputDialog("Create new shopping list", "Please name your new list:", "", "Create", "Cancel", "newShoppingList");
     });
     $(".right_button").on("tap", function() {
+        $(".bottom_piece").animate({bottom: "0"});
+        $(".bot_curve").unbind("tap");
+        $(document).unbind("tap");
         window.JSInterface.inputDialog("Create new pantry list", "Please name your new list:", "", "Create", "Cancel", "newPantryList");
     });
 
