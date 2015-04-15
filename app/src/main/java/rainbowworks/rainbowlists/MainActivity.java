@@ -24,8 +24,10 @@ public class MainActivity extends ActionBarActivity {
     private HashMap<Integer, RainbowList> lists;
     private int currentList;
 
-    private static final String[] SUGGESTIONS = {"Milk", "Ham", "Bread"};
     private SimpleCursorAdapter mAdapter;
+    int[] searchIDs;
+    String[] searchNames;
+    String[] searchTypes;
 
 
     /*
@@ -47,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
         }
         currentPage = "index";
 
-        final String[] from = new String[] {"cityName"};
+        final String[] from = new String[] {"listName", "listType"};
         final int[] to = new int[] {android.R.id.text1};
         mAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_1,
@@ -56,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
                 to,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
     }
+
     /*
      * For when the page is changed directly in frontend
      */
@@ -118,18 +121,25 @@ public class MainActivity extends ActionBarActivity {
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setSuggestionsAdapter(mAdapter);
         searchView.setIconifiedByDefault(false);
+
         // Getting selected (clicked) item suggestion
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
-            public boolean onSuggestionClick(int position) {
-                return true;
+            public boolean onSuggestionSelect(int position) {
+                return false;
             }
 
             @Override
-            public boolean onSuggestionSelect(int position) {
+            public boolean onSuggestionClick(int position) {
+                int id = searchIDs[position];
+                String name = searchNames[position];
+                String type = searchTypes[position];
+                Log.i("Search","You selected ID "+id+" named "+name+" of type "+type);
+
                 return true;
             }
         });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -144,16 +154,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         return true;
-    }
-
-    // You must implement this
-    private void populateAdapter(String query) {
-        final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "cityName" });
-        for (int i=0; i<SUGGESTIONS.length; i++) {
-            if (SUGGESTIONS[i].toLowerCase().startsWith(query.toLowerCase()))
-                c.addRow(new Object[] {i, SUGGESTIONS[i]});
-        }
-        mAdapter.changeCursor(c);
     }
 
     @Override
@@ -231,5 +231,34 @@ public class MainActivity extends ActionBarActivity {
 
     protected int getCurrentList() {
         return currentList;
+    }
+
+
+    // You must implement this
+    private void populateAdapter(String query) {
+        final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "listName", "listType" });
+        List<List<String>> search = dbh.load("SELECT * FROM lists WHERE name LIKE '%"+query+"%'");
+        searchIDs = new int[search.size()];
+        searchNames = new String[search.size()];
+        searchTypes = new String[search.size()];
+
+        for(int i = 0; i < search.size(); i++) {
+            for (int k = 0; k < search.get(i).size(); k++) {
+                if (k == 0) {
+                    searchIDs[i] = Integer.parseInt(search.get(i).get(k));
+                }
+                else if (k == 1) {
+                    searchNames[i] = search.get(i).get(k);
+                }
+                else if (k == 2) {
+                    searchTypes[i] = search.get(i).get(k);
+                }
+            }
+        }
+
+        for (int i=0; i<search.size(); i++) {
+            c.addRow(new Object[] {searchIDs[i], searchNames[i], searchTypes[i]});
+        }
+        mAdapter.changeCursor(c);
     }
 }
