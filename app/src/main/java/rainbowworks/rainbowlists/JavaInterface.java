@@ -185,8 +185,10 @@ public class JavaInterface {
                 .setNegativeButton(cancelButton, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        runJS("loadPage('"+activity.getLocation()+".html')");
                     }
                 })
+                .setCancelable(false)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
