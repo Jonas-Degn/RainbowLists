@@ -14,6 +14,14 @@ function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 }
 
+function setCurrentList(id) {
+    window.JSInterface.setCurrentList(id);
+}
+
+function getCurrentList() {
+    return window.JSInterface.getCurrentList();
+}
+
 function loadPage(url) {
     $.mobile.loading('show');
     $("#newContent").load(url+" #content", function() {

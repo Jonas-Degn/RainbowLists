@@ -21,7 +21,8 @@ function loadLists() {
     for(i = 0; i < newShoppingData.length; i++) {
         var id = newShoppingData[i][0];
         var name = newShoppingData[i][1];
-        $shopping.after('<div id="'+id+'" class="list_block">'+name+' <img class="threeDots" src="images/3_dots_list.png"><img class="listLine" src="images/list_line.png"></div>');
+        $shopping.after('<div id="'+id+'" class="list list_block">'+name+' <img class="listLine" src="images/list_line.png"></div>');
+        // not using <img class="threeDots" src="images/3_dots_list.png"> anymore
     }
 
     // PANTRY
@@ -42,8 +43,27 @@ function loadLists() {
     for(i = 0; i < newPantryData.length; i++) {
         var id = newPantryData[i][0];
         var name = newPantryData[i][1];
-        $pantry.after('<div id="'+id+'" class="list_block">'+name+' <img class="threeDots" src="images/3_dots_list.png"><img class="listLine" src="images/list_line.png"></div>');
+        $pantry.after('<div id="'+id+'" class="list list_block">'+name+' <img class="listLine" src="images/list_line.png"></div>');
+        // not using <img class="threeDots" src="images/3_dots_list.png"> anymore
     }
+
+    $(".list").on("tap", function(e) {
+        $(e.target).toggleClass("activeList");
+        var id = e.id;
+        setCurrentList(id);
+        //loadPage("list.html");
+    });
+    $(".list").on("swipeleft swiperight", function(e) {
+        window.JSInterface.deleteList(e.target.id);
+        $(e.target).css({position: "relative"});
+        if (e.swipestart.coords[0] > e.swipestop.coords[0]) {
+            $(e.target).animate({right: "100%"}).hide('slow');
+        }
+        else {
+            $(e.target).animate({left: "100%"}).hide('slow');
+        }
+        loadLists();
+    });
 }
 
 function prepareButtons() {

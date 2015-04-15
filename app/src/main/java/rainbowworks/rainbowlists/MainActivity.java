@@ -22,6 +22,7 @@ public class MainActivity extends ActionBarActivity {
     private JavaInterface jsInterface;
     private DatabaseHandler dbh;
     private HashMap<Integer, RainbowList> lists;
+    private int currentList;
 
     private static final String[] SUGGESTIONS = {"Milk", "Ham", "Bread"};
     private SimpleCursorAdapter mAdapter;
@@ -37,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setElevation(0);
 
         dbh = new DatabaseHandler(this);
-        dbh.reset();
+        //dbh.reset();
         populateLists();
 
         jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
@@ -222,5 +223,13 @@ public class MainActivity extends ActionBarActivity {
 
             lists.put(new Integer(id),new RainbowList(id,name,type));
         }
+    }
+
+    protected void setCurrentList(int id) {
+        currentList = id;
+    }
+
+    protected int getCurrentList() {
+        return currentList;
     }
 }

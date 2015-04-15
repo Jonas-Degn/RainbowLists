@@ -3,6 +3,7 @@ package rainbowworks.rainbowlists;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -191,8 +192,25 @@ public class JavaInterface {
     }
 
     @android.webkit.JavascriptInterface
+    public static void deleteList(String id) {
+        activity.getDBH().save("DELETE FROM lists WHERE id = " + id);
+        activity.populateLists();
+    }
+
+
+    @android.webkit.JavascriptInterface
     public static void setLocation(String file) {
         activity.setLocation(file);
+    }
+
+    @android.webkit.JavascriptInterface
+    public static void setCurrentList(int id) {
+        activity.setCurrentList(id);
+    }
+
+    @android.webkit.JavascriptInterface
+    public static int getCurrentList() {
+        return activity.getCurrentList();
     }
 
     public static void runJS(final String scriptSrc) {
