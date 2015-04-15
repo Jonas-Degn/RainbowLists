@@ -121,13 +121,11 @@ public class MainActivity extends ActionBarActivity {
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
             public boolean onSuggestionClick(int position) {
-                // Your code here
                 return true;
             }
 
             @Override
             public boolean onSuggestionSelect(int position) {
-                // Your code here
                 return true;
             }
         });
@@ -147,8 +145,7 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-
-    // You must implements your logic to get data using OrmLite
+    // You must implement this
     private void populateAdapter(String query) {
         final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "cityName" });
         for (int i=0; i<SUGGESTIONS.length; i++) {
