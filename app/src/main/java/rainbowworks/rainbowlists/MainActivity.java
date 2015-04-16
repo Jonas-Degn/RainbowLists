@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
 
-        mNavigationDrawerItemTitles= new String[]{"Create", "Reload", "Share"};
+        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -82,13 +82,13 @@ public class MainActivity extends ActionBarActivity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
 
-                getActionBar().setTitle(mTitle);
+                getSupportActionBar().setTitle(mTitle);
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
 
-                getActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setTitle(mDrawerTitle);
             }
         };
 

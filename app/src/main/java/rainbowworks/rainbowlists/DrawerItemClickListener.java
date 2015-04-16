@@ -29,8 +29,10 @@ public class DrawerItemClickListener implements ListView.OnItemClickListener {
                 JavaInterface.runJS("loadPage('settings.html')");
                 break;
             case 1:
+                JavaInterface.runJS("loadPage('settings.html')");
                 break;
             case 2:
+                JavaInterface.runJS("loadPage('settings.html')");
                 break;
             default:
                 break;
