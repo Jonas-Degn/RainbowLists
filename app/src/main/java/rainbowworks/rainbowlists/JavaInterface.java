@@ -215,6 +215,16 @@ public class JavaInterface {
         return activity.getCurrentList();
     }
 
+    @android.webkit.JavascriptInterface
+    public static void setCurrentAction(String action) {
+        activity.setCurrentAction(action);
+    }
+
+    @android.webkit.JavascriptInterface
+    public static String getCurrentAction() {
+        return activity.getCurrentAction();
+    }
+
     public static void runJS(final String scriptSrc) {
         webView.post(new Runnable() {
             @Override
