@@ -1,5 +1,6 @@
 package rainbowworks.rainbowlists;
 
+import android.content.res.Configuration;
 import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -13,9 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.support.v7.widget.SearchView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,9 +39,10 @@ public class MainActivity extends ActionBarActivity {
     int[] searchIDs;
     String[] searchNames;
     String[] searchTypes;
-    ActionBarDrawerToggle mDrawerToggle;
+    private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+
 
     /*
      * Create application
@@ -47,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
 
-        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mNavigationDrawerItemTitles= new String[]{"Create", "Reload", "Share"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -57,10 +63,8 @@ public class MainActivity extends ActionBarActivity {
         drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_action_refresh, "Reload");
         drawerItem[2] = new ObjectDrawerItem(R.drawable.ic_action_share, "Share");
 
-        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this,
-                R.layout.listview_item_row, drawerItem);
-
-        mDrawerList.setAdapter(adapter);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item1));
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -77,18 +81,21 @@ public class MainActivity extends ActionBarActivity {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mTitle);
+
+                getActionBar().setTitle(mTitle);
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle(mDrawerTitle);
+
+                getActionBar().setTitle(mDrawerTitle);
             }
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         dbh = new DatabaseHandler(this);
         dbh.reset();
@@ -154,6 +161,12 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
     /*
      * Content of options menu
      * Changes per webview page
@@ -201,6 +214,13 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -209,6 +229,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void selectItem(int position) {
+        Toast.makeText(this, R.string.app_name, Toast.LENGTH_SHORT).show();
+
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override
@@ -317,9 +344,10 @@ public class MainActivity extends ActionBarActivity {
         getActionBar().setTitle(mTitle);
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            selectItem(position);
+        }
     }
 }
