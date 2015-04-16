@@ -4,11 +4,7 @@
     <string name="action_quit">Exit</string>
     <string name="search_hint">Search</string>
     <string name="search">Search</string>
-    <string-array name="navigation_drawer_items_array">
-        <item>Create</item>
-        <item>Read</item>
-        <item>Help</item>
-    </string-array>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 </resources>
