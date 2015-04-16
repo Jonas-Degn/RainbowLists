@@ -58,6 +58,12 @@ div.main_area{
 
 }
 
+.noLists {
+    width: 55%;
+    margin-left: 22.5%;
+    margin-top: 2.8em;
+}
+
 .activeList {
     background: red; /* if not working, let's see some red */
     background: -moz-linear-gradient( top ,
@@ -88,31 +94,32 @@ div.list_block{
 	padding-left: 1em;
 }
 
-.threeDots {
-    height: 70%;
-    padding-top: 0.3em;
-    padding-right: 0.5em;
-    float:right;
-}
-
 .listLine {
     width: 100%;
     float: right;
 }
 
 div.bottom_piece{
-	position:fixed;
-	bottom:0;
-	width:100%;
-	height:4em;
+	position: fixed;
+	bottom: -14em;
+	width: 100%;
+	height: 24em;
+}
+
+.newList {
+    height: 9em;
+    width: 9em;
+    float: right;
+    margin-right: 1em;
+    margin-bottom: 1em;
 }
 
 div.bot_curve{
-	position:relative;
-	width:100%;
-	height:auto;
-	z-index:1;
-	top:0.7em;
+	position: relative;
+	width: 100%;
+	height: 2.8em;
+	z-index: 1;
+	margin-top: 12em;
 }
 
 div.bot_curve img{

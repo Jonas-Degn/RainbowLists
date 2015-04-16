@@ -19,10 +19,11 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
     private MenuItem register;
     private String currentPage;
+    private int currentList;
+    private String currentAction;
     private JavaInterface jsInterface;
     private DatabaseHandler dbh;
     private HashMap<Integer, RainbowList> lists;
-    private int currentList;
 
     private SimpleCursorAdapter mAdapter;
     int[] searchIDs;
@@ -40,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setElevation(0);
 
         dbh = new DatabaseHandler(this);
-        dbh.reset();
+        //dbh.reset();
         populateLists();
 
         jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
@@ -181,6 +182,11 @@ public class MainActivity extends ActionBarActivity {
             JavaInterface.runJS("loadPage('listOverview.html')");
             return;
         }
+        if (currentAction.equals("showNewList")) {
+            JavaInterface.runJS("$(\".bottom_piece\").animate({bottom: \"-14em\"},400,function() {\n" +"$(\".newList\").show('fast');\n" +"});\n" +"$(document).unbind(\"tap\");");
+            currentAction = "";
+            return;
+        }
         super.onBackPressed();
     }
 
@@ -231,6 +237,14 @@ public class MainActivity extends ActionBarActivity {
 
     protected int getCurrentList() {
         return currentList;
+    }
+
+    protected void setCurrentAction(String action) {
+        currentAction = action;
+    }
+
+    protected String getCurrentAction() {
+        return currentAction;
     }
 
 
