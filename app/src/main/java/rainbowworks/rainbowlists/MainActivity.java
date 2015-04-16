@@ -4,31 +4,39 @@ import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.support.v7.widget.SearchView;
 import android.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
-
+import android.widget.ListView;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
     private MenuItem register;
     private String currentPage;
+    private int currentList;
+    private String currentAction;
     private JavaInterface jsInterface;
     private DatabaseHandler dbh;
     private HashMap<Integer, RainbowList> lists;
-    private int currentList;
-
+    private String[] mNavigationDrawerItemTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
     private SimpleCursorAdapter mAdapter;
     int[] searchIDs;
     String[] searchNames;
     String[] searchTypes;
-
+    ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
 
     /*
      * Create application
@@ -38,6 +46,49 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
+
+        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[3];
+
+        drawerItem[0] = new ObjectDrawerItem(R.drawable.ic_action_copy, "Create");
+        drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_action_refresh, "Reload");
+        drawerItem[2] = new ObjectDrawerItem(R.drawable.ic_action_share, "Share");
+
+        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this,
+                R.layout.listview_item_row, drawerItem);
+
+        mDrawerList.setAdapter(adapter);
+
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        mTitle = mDrawerTitle = getTitle();
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                null,
+                R.string.drawer_open,
+                R.string.drawer_close
+        ) {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mTitle);
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle(mDrawerTitle);
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         dbh = new DatabaseHandler(this);
         dbh.reset();
@@ -112,12 +163,6 @@ public class MainActivity extends ActionBarActivity {
         register = menu.findItem(R.id.action_search);
         register.setVisible(currentPage != null);
 
-        register = menu.findItem(R.id.action_settings);
-        register.setVisible(currentPage != null);
-
-        register = menu.findItem(R.id.action_quit);
-        register.setVisible(currentPage != null);
-
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setSuggestionsAdapter(mAdapter);
         searchView.setIconifiedByDefault(false);
@@ -158,20 +203,11 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_search:
 
-                break;
-            case R.id.action_settings:
-                JavaInterface.runJS("loadPage('settings.html')");
-                break;
-            case R.id.action_quit:
-                this.finish();
-                System.exit(0);
-                break;
-            default:
-                return true;
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -179,6 +215,11 @@ public class MainActivity extends ActionBarActivity {
     public void onBackPressed() {
         if (!currentPage.equals("listOverview")) {
             JavaInterface.runJS("loadPage('listOverview.html')");
+            return;
+        }
+        if (currentAction.equals("showNewList")) {
+            JavaInterface.runJS("$(\".bottom_piece\").animate({bottom: \"-14em\"},400,function() {\n" +"$(\".newList\").show('fast');\n" +"});\n" +"$(document).unbind(\"tap\");");
+            currentAction = "";
             return;
         }
         super.onBackPressed();
@@ -233,6 +274,14 @@ public class MainActivity extends ActionBarActivity {
         return currentList;
     }
 
+    protected void setCurrentAction(String action) {
+        currentAction = action;
+    }
+
+    protected String getCurrentAction() {
+        return currentAction;
+    }
+
 
     // You must implement this
     private void populateAdapter(String query) {
@@ -260,5 +309,17 @@ public class MainActivity extends ActionBarActivity {
             c.addRow(new Object[] {searchIDs[i], searchNames[i], searchTypes[i]});
         }
         mAdapter.changeCursor(c);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
     }
 }
