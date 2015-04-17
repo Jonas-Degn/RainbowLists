@@ -5,8 +5,8 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/action_search"
-        android:title="@string/search"
+        android:id="@+id/action_search_option"
+        android:title="@string/search_option"
         android:orderInCategory="100"
         app:showAsAction="collapseActionView|ifRoom"
         android:icon="@android:drawable/ic_menu_search"
