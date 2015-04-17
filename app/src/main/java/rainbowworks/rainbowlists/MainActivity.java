@@ -20,7 +20,6 @@ import android.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,7 +42,6 @@ public class MainActivity extends ActionBarActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
-
     /*
      * Create application
      */
@@ -53,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
 
-        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mNavigationDrawerItemTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -214,7 +212,6 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -309,7 +306,6 @@ public class MainActivity extends ActionBarActivity {
         return currentAction;
     }
 
-
     // You must implement this
     private void populateAdapter(String query) {
         final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "listName", "listType" });
@@ -341,13 +337,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
 }
