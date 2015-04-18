@@ -12,13 +12,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebView;
 import android.support.v7.widget.SearchView;
 import android.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,11 +26,10 @@ public class MainActivity extends ActionBarActivity {
     private MenuItem register;
     private String currentPage;
     private int currentList;
-    private String currentAction;
+    private String currentAction = "";
     private JavaInterface jsInterface;
     private DatabaseHandler dbh;
     private HashMap<Integer, RainbowList> lists;
-    private String[] mNavigationDrawerItemTitles;
     private SimpleCursorAdapter mAdapter;
     int[] searchIDs;
     String[] searchNames;
@@ -232,10 +229,14 @@ public class MainActivity extends ActionBarActivity {
             JavaInterface.runJS("loadPage('listOverview.html')");
             return;
         }
-        if (currentAction.equals("showNewList")) {
+        else if (currentAction.equals("showNewList")) {
             JavaInterface.runJS("$(\".bottom_piece\").animate({bottom: \"-14em\"},400,function() {\n" +"$(\".newList\").show('fast');\n" +"});\n" +"$(document).unbind(\"tap\");");
             currentAction = "";
             return;
+        }
+        else if (currentPage.equals("listOverview")) {
+            this.finish();
+            System.exit(0);
         }
         super.onBackPressed();
     }

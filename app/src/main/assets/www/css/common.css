@@ -3,6 +3,10 @@
 .ui-mobile .ui-page-active {
     overflow-x: auto !important;
 }
+.ui-page {
+    background-color: #ffffff;
+}
+
 .ui-icon-loading {
     background:url(../images/ajax-loader.gif) no-repeat;
     background-size: 100%;
@@ -24,7 +28,6 @@
 /* This is really one big mess... */
 
 body{
-	background-color: #282828;
 	-moz-user-select:-moz-none;
     -moz-user-select:none;
     -o-user-select:none;
@@ -61,6 +64,13 @@ div.main_area{
 .noLists {
     width: 75%;
     margin-left: 12.5%;
+    display: none;
+}
+.hiddenCool {
+    width: 100%;
+    position: absolute;
+    top: 30%;
+    left: 100%;
 }
 
 .activeList {
