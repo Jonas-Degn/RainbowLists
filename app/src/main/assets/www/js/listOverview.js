@@ -18,7 +18,7 @@ function loadLists() {
         }
     }
     else {
-        $content.html('<img src="images/scorpion^^.png" class="noLists" alt="Create a new list by clicking the plus"/>');
+        $content.html('<img src="images/rainbow^^.png" class="noLists" alt="Create a new list by clicking the plus"/>');
     }
 
 
@@ -80,7 +80,7 @@ function updateListDisplay() {
         $("#pantry").hide('slow');
     };
     if ($("#shoppingContent div:visible").length == 0 && $("#pantryContent div:visible").length == 0) {
-        $(".main_area").html('<img src="images/scorpion^^.png" class="noLists" alt="Create a new list by clicking the plus"/>');
+        $(".main_area").html('<img src="images/rainbow^^.png" class="noLists" alt="Create a new list by clicking the plus"/>');
     }
 }
 
