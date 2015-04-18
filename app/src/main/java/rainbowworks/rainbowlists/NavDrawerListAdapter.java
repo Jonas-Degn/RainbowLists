@@ -14,10 +14,12 @@ public class NavDrawerListAdapter extends BaseAdapter {
 	
 	private Context context;
 	private ArrayList<NavDrawerItem> navDrawerItems;
+    private MainActivity activity;
 	
-	public NavDrawerListAdapter(Context context, ArrayList<NavDrawerItem> navDrawerItems){
+	public NavDrawerListAdapter(Context context, ArrayList<NavDrawerItem> navDrawerItems, MainActivity activity){
 		this.context = context;
 		this.navDrawerItems = navDrawerItems;
+        this.activity = activity;
 	}
 
 	@Override
@@ -58,6 +60,8 @@ public class NavDrawerListAdapter extends BaseAdapter {
         	// hide the counter view
         	txtCount.setVisibility(View.GONE);
         }
+        convertView.setId(position);
+        convertView.setOnClickListener(new NavDrawerItemClickListener(activity));
         
         return convertView;
 	}

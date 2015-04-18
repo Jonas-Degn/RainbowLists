@@ -1,8 +1,5 @@
 <resources>
 
-    <color name="orange">#fff2594b</color>
-    <color name="white">#ffffff</color>
-
     <style name="AppTheme"
         parent="@style/Theme.AppCompat.Light">
         <item name="android:windowContentOverlay">@null</item>
