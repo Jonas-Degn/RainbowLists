@@ -145,14 +145,19 @@ div.left_button{
 	background-color:#f2594b;
 }
 
-div.left_button:active{
+#clickLeftButton, #clickRightButton {
+    width: 55%;
+    margin-left: 27.5%;
+}
+#clickLeftButton:active{
 	background-image:url("../images/l_button_active.png");
 	background-repeat: no-repeat;
 	background-position: bottom left;
 }
 
+
 div.left_button_image img{
-	width:30%;
+	width:60%;
 	padding-top:1em;
 	padding-bottom:2em;
 	height:auto;
@@ -167,14 +172,14 @@ div.right_button{
 	background-color:#f2594b;
 }
 
-div.right_button:active{
+#clickRightButton:active{
 	background-image:url("../images/r_button_active.png");
 	background-repeat: no-repeat;
-	background-position: bottom right;
+	background-position: bottom left;
 }
 
 div.right_button_image img{
-	width:30%;
+	width:60%;
 	padding-top:1em;
 	padding-bottom:2em;
 	height:auto;
