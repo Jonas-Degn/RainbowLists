@@ -45,6 +45,12 @@ function finishPage(url) {
             prepareButtons();
         }, 500);
     }
+    else if (url == "itemOverview.html") {
+    setTimeout(function() {
+        loadItems();
+        prepareButtons2();
+        }, 500);
+    }
 }
 
 function sortByFirstColumn(a, b) {

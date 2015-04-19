@@ -115,7 +115,7 @@ div.bottom_piece{
 	height: 24em;
 }
 
-.newList {
+.newList, .newItem {
     height: 9em;
     width: 9em;
     float: right;
@@ -144,6 +144,9 @@ div.left_button{
 	float:left;
 	background-color:#f2594b;
 }
+div.left_button.item {
+    background-color:#27a0ab;
+}
 
 .clickLeftButton, .clickRightButton {
     width: 55%;
@@ -170,6 +173,9 @@ div.right_button{
 	text-align:center;
 	float:right;
 	background-color:#f2594b;
+}
+div.right_button.item {
+    background-color:#27a0ab;
 }
 
 .clickRightButton:active{
