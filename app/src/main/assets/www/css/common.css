@@ -145,16 +145,16 @@ div.left_button{
 	background-color:#f2594b;
 }
 
-#clickLeftButton, #clickRightButton {
+.clickLeftButton, .clickRightButton {
     width: 55%;
     margin-left: 27.5%;
 }
-#clickLeftButton:active{
+
+.clickLeftButton:active{
 	background-image:url("../images/l_button_active.png");
 	background-repeat: no-repeat;
 	background-position: bottom left;
 }
-
 
 div.left_button_image img{
 	width:60%;
@@ -172,7 +172,7 @@ div.right_button{
 	background-color:#f2594b;
 }
 
-#clickRightButton:active{
+.clickRightButton:active{
 	background-image:url("../images/r_button_active.png");
 	background-repeat: no-repeat;
 	background-position: bottom left;

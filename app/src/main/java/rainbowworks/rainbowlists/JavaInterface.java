@@ -3,6 +3,7 @@ package rainbowworks.rainbowlists;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -226,6 +227,25 @@ public class JavaInterface {
     @android.webkit.JavascriptInterface
     public static void setLocation(String file) {
         activity.setLocation(file);
+        switch(file) {
+            case "listOverview":
+                activity.runOnUiThread(new Runnable(){
+                    public void run() {
+                        activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xfff2594b));
+                        //activity.getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.orange));
+                    }
+                });
+
+                break;
+            case "itemOverview":
+                activity.runOnUiThread(new Runnable(){
+                    public void run() {
+                        activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff27a0ab));
+                        //activity.getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.blue));
+                    }
+                });
+                break;
+        }
     }
 
     @android.webkit.JavascriptInterface

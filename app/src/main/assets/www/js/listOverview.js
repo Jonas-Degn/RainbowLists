@@ -90,13 +90,13 @@ function updateListDisplay() {
 }
 
 function prepareButtons() {
-    $("#clickLeftButton").on("tap", function() {
+    $("#leftButton1").on("tap", function() {
         $(".bottom_piece").animate({bottom: "-14em"});
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");
         setTimeout(function() {window.JSInterface.inputDialog("Create new shopping list", "Please name your new list (no special chars):", "", "Create", "Cancel", "newShoppingList")}, 400);
     });
-    $("#clickRightButton").on("tap", function() {
+    $("#rightButton1").on("tap", function() {
         $(".bottom_piece").animate({bottom: "-14em"});
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");

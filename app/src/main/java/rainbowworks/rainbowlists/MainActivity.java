@@ -1,5 +1,6 @@
 package rainbowworks.rainbowlists;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -333,7 +334,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
    }
-
 }
