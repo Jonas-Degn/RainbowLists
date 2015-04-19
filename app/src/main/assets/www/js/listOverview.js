@@ -90,17 +90,17 @@ function updateListDisplay() {
 }
 
 function prepareButtons() {
-    $(".left_button").on("tap", function() {
-        $(".bottom_piece").animate({bottom: "0"});
+    $("#clickLeftButton").on("tap", function() {
+        $(".bottom_piece").animate({bottom: "-14em"});
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");
-        window.JSInterface.inputDialog("Create new shopping list", "Please name your new list:", "", "Create", "Cancel", "newShoppingList");
+        setTimeout(function() {window.JSInterface.inputDialog("Create new shopping list", "Please name your new list (no special chars):", "", "Create", "Cancel", "newShoppingList")}, 400);
     });
-    $(".right_button").on("tap", function() {
-        $(".bottom_piece").animate({bottom: "0"});
+    $("#clickRightButton").on("tap", function() {
+        $(".bottom_piece").animate({bottom: "-14em"});
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");
-        window.JSInterface.inputDialog("Create new pantry list", "Please name your new list:", "", "Create", "Cancel", "newPantryList");
+        setTimeout(function() {window.JSInterface.inputDialog("Create new pantry list", "Please name your new list (no special chars):", "", "Create", "Cancel", "newPantryList")}, 400);
     });
 
     $(".newList").on("tap", function() {

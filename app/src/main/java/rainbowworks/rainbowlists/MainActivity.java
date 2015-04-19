@@ -1,5 +1,6 @@
 package rainbowworks.rainbowlists;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.MatrixCursor;
@@ -12,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.support.v7.widget.SearchView;
 import android.widget.CursorAdapter;
@@ -165,7 +167,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         register = menu.findItem(R.id.action_search);
 
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setSuggestionsAdapter(mAdapter);
         searchView.setIconifiedByDefault(false);
 
@@ -178,6 +180,8 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public boolean onSuggestionClick(int position) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
                 int id = searchIDs[position];
                 String name = searchNames[position];
                 String type = searchTypes[position];

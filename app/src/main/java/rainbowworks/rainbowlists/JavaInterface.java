@@ -1,9 +1,13 @@
 package rainbowworks.rainbowlists;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -151,23 +155,37 @@ public class JavaInterface {
         final EditText input = new EditText(activity);
         input.setText(text);
 
+        InputFilter noSpecialCharacters = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                for (int i = start; i < end; i++) {
+                    if (!Character.isLetterOrDigit(source.charAt(i))) {
+                        return "";
+                    }
+                }
+                return null;
+            }
+        };
+        input.setFilters(new InputFilter[]{noSpecialCharacters});
+
         new AlertDialog.Builder(activity)
                 .setTitle(header)
                 .setMessage(description)
                 .setView(input)
                 .setPositiveButton(okButton, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        switch(action) {
+                        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
+                        switch (action) {
                             case "newShoppingList":
                                 // Save in database new list with name 'input.getText().toString()'
                                 // Add to HashMap 'lists' in MainActivity
-                                activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('"+input.getText().toString()+"','shopping')");
+                                activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('" + input.getText().toString() + "','shopping')");
                                 activity.populateLists();
                                 break;
                             case "newPantryList":
                                 // Save in database new list with name 'input.getText().toString()';
                                 // Add to HashMap 'lists' in MainActivity
-                                activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('"+input.getText().toString()+"','pantry')");
+                                activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('" + input.getText().toString() + "','pantry')");
                                 activity.populateLists();
                                 break;
                             case "editShoppingList":
@@ -179,11 +197,13 @@ public class JavaInterface {
                                 // Update name in HashMap 'lists' in MainActivity
                                 break;
                         }
-                        runJS("loadPage('"+activity.getLocation()+".html')");
+                        runJS("loadPage('" + activity.getLocation() + ".html')");
                     }
                 })
                 .setNegativeButton(cancelButton, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                         dialog.cancel();
                         runJS("loadPage('"+activity.getLocation()+".html')");
                     }
@@ -191,6 +211,9 @@ public class JavaInterface {
                 .setCancelable(false)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+        input.requestFocus();
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     @android.webkit.JavascriptInterface
