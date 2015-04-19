@@ -1,12 +1,20 @@
+/*resets*/
+p{
+	margin:0;
+	padding:0;
+}
 body{
 	background-color: #282828;
 }
 div.body{
 	position:relative;
-	background-color:white;
+	background-color:#FFFFFF;
 	margin-left: auto;
     margin-right: auto;
 	overflow:hidden;
+}
+div.beige{
+	background-color:#eaeaea;
 }
 div.top_curve img{
 	position:relative;
@@ -34,6 +42,36 @@ div.list_block_title{
 	font-weight: 300;
 	line-height: 100%;
 	padding:60px 0 0px 200px;
+
+}
+p.setting_block_title{
+	width:40%;
+	float:left;
+	font-family: Arial;
+	color: #4d4d4d;
+	font-size: 65px;
+	font-weight: 300;
+	line-height: 100%;
+	white-space: nowrap;
+}
+p.setting_block_text{
+	width:40%;
+	float:right;
+	text-align:right;
+	font-family: Arial;
+	color: #2e0927;
+	font-size: 45px;
+	font-weight: 500;
+	line-height: 100%;
+	white-space: nowrap;
+	padding-top:10px;
+}
+p.setting_block_checkbox{
+	position:relative;
+	top:-20px;
+	width:40%;
+	float:right;
+	text-align:right;
 }
 div.list_block{
 	font-family: Arial;
@@ -50,6 +88,14 @@ div.item_block{
 	font-weight: 300;
 	line-height: 80px;
 	padding:40px 0 40px 180px;
+}
+div.setting_block{
+	padding:40px 20px 40px 50px;
+	background-color:#ffffff;
+	margin:15px 30px 10px 30px;
+	box-shadow: 3px 3px 5px #888888;
+	height:50px;
+	overflow:hidden;
 }
 div.list_block_bacground{
 	background-image:url("file:///C:/Users/Philip/Desktop/Rainbow%20shopping/rs_pages/assets/images/list_line.png");
@@ -93,6 +139,7 @@ div.left_button{
 }
 .red{ background-color:#f1584a;}
 .blue{ background-color:#27a0ab;}
+.purple{background-color:#2e0927;}
 div.left_button_red:active{
 	background-image:url("file:///C:/Users/Philip/Android%20Projects/RainbowLists/app/src/main/assets/www/images/l_button_active.png");
 	background-repeat: no-repeat;
