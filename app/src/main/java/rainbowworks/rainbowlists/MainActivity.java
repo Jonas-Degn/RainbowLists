@@ -286,7 +286,7 @@ public class MainActivity extends ActionBarActivity {
                 count ++;
             }
 
-            lists.put(new Integer(id),new RainbowList(id,name,type));
+            lists.put(Integer.valueOf(id),new RainbowList(id,name,type));
         }
     }
 

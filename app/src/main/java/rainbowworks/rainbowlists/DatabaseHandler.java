@@ -42,7 +42,8 @@ public class DatabaseHandler{
                 stringArray.get(i).add(c.getString(k));
             }
         }
-
+        //release all of its resources and make it invalid
+        c.close();
         return stringArray;
     }
 }
