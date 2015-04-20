@@ -68,6 +68,9 @@ public class MainActivity extends ActionBarActivity {
                 .obtainTypedArray(R.array.nav_drawer_icons);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //make fade color transparent, ergo NO fading color
+        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+
         mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
         navDrawerItems = new ArrayList<>();
