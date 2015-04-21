@@ -46,11 +46,11 @@ function finishPage(url) {
         }, 500);
     }
     else if (url == "itemOverview.html") {
-    setTimeout(function() {
-        loadItems();
-        prepareButtons2();
-        }, 500);
-    }
+        setTimeout(function() {
+            loadItems();
+            prepareButtons2();
+            }, 500);
+        }
 }
 
 function sortByFirstColumn(a, b) {

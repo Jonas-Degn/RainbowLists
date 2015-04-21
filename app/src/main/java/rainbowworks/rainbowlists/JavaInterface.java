@@ -54,7 +54,6 @@ public class JavaInterface {
         String foundLists = "";
         try {
             for (HashMap.Entry<Integer, RainbowList> entry : activity.getLists().entrySet()) {
-                int id = entry.getKey();
                 RainbowList list = entry.getValue();
                 if (list.getType().equals(type)) {
                     if (foundLists.equals("")) {
@@ -78,20 +77,40 @@ public class JavaInterface {
         RainbowList currentList = activity.getList(listID);
 
         for(HashMap.Entry<Integer, Item> entry : currentList.getItems().entrySet()) {
-            int id = entry.getKey();
             Item item = entry.getValue();
-            if (foundItems.equals("")) {
-                foundItems += item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
-            }
-            else {
-                foundItems += ";"+item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
+            if (!item.getName().equals("empty")) {
+                if (foundItems.equals("")) {
+                    foundItems += currentList.getID()+","+item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
+                }
+                else {
+                    foundItems += ";"+currentList.getID()+","+item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
+                }
             }
         }
         return foundItems;
     }
 
     @android.webkit.JavascriptInterface
-    public static String searchLists (String search) {
+    public static String loadItems() {
+        String foundItems = "";
+
+        for (HashMap.Entry<Integer, RainbowList> entry : activity.getLists().entrySet()) {
+            for (HashMap.Entry<Integer, Item> entry2 : entry.getValue().getItems().entrySet()){
+                Item item = entry2.getValue();
+                if (!item.getName().equals("empty")) {
+                    if (foundItems.equals("")) {
+                        foundItems += item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + (item.getIsChecked()?"1":"0");
+                    } else {
+                        foundItems += ";" + item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + (item.getIsChecked()?"1":"0");
+                    }
+                }
+            }
+        }
+        return foundItems;
+    }
+
+    @android.webkit.JavascriptInterface
+    public static String searchLists(String search) {
         String foundLists = "";
         List<List<String>> result = activity.getDBH().load("SELECT * FROM lists WHERE name LIKE '%"+search+"%'");
 
@@ -110,7 +129,7 @@ public class JavaInterface {
     }
 
     @android.webkit.JavascriptInterface
-    public static String searchItems (String search) {
+    public static String searchItems(String search) {
         String foundItems = "";
         List<List<String>> result = activity.getDBH().load("SELECT * FROM items WHERE name LIKE '%"+search+"%'");
 
@@ -129,7 +148,7 @@ public class JavaInterface {
     }
 
     @android.webkit.JavascriptInterface
-    public static void createList (String data) {
+    public static void createList(String data) {
         String[] newData = data.split(";");
         int id = Integer.parseInt(newData[0]);
         String name = newData[1];
@@ -159,7 +178,7 @@ public class JavaInterface {
         InputFilter noSpecialCharacters = new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 for (int i = start; i < end; i++) {
-                    if (!Character.isLetterOrDigit(source.charAt(i))) {
+                    if (!Character.isLetterOrDigit(source.charAt(i)) && !Character.isSpaceChar(source.charAt(i))) {
                         return "";
                     }
                 }
@@ -196,6 +215,29 @@ public class JavaInterface {
                             case "editPantryList":
                                 // Update in database list with old name 'text' name 'input.getText().toString()'
                                 // Update name in HashMap 'lists' in MainActivity
+                                break;
+                            case "addProduct":
+                                // Save in database new product with name 'input.getText().toString()';
+                                // Add to HashMap 'lists' in MainActivity
+                                String[] newInput = input.getText().toString().split("\\s+");
+                                String amount = "";
+                                String name = "";
+                                if (newInput.length > 2) {
+                                    // 1 amount, 2 amount type, 3 name
+                                    amount = newInput[0] + " " + newInput[1];
+                                    name = input.getText().toString().replace(newInput[0] + " " + newInput[1],"");
+                                }
+                                else if (newInput.length == 2) {
+                                    // 1 amount, 2 name
+                                    amount = newInput[0];
+                                    name = input.getText().toString().replace(newInput[0],"");
+                                }
+                                else {
+                                    // 1 name
+                                    name = input.getText().toString();
+                                }
+                                activity.getDBH().save("INSERT INTO items (listID,name,amount,isChecked) VALUES ("+activity.getCurrentList()+",'" + name + "','" + amount + "',0)");
+                                activity.populateLists();
                                 break;
                         }
                         runJS("loadPage('" + activity.getLocation() + ".html')");

@@ -1,16 +1,88 @@
 function loadItems() {
     var $content = $(".main_area");
+    var itemsData = window.JSInterface.loadItems();
+    var newItemsData = new Array();
+    var $itemsContent;
+    var listID = getCurrentList();
 
-    $content.html('<div id="itemContent"></div><img src="images/hidden.gif" class="hiddenCool" /><img src="images/rainbow_item^^.png" class="noLists" alt="Create a new list by clicking the plus"/>');
-    setTimeout(function() {
-    $(".hiddenCool").animate({left: "-100%"}, 1000, function() {
-        $(".noLists").show("scale",{}, 400);
+    if (itemsData.length > 0) {
+        $content.append('<div id="items" class="list_block">Items</div><div id="itemsContent"></div>');
+        $itemsContent = $("#itemsContent");
+    }
+    else {
+        $content.html('<img src="images/hidden.gif" class="hiddenCool" /><img src="images/rainbow_item^^.png" class="noLists" alt="Add a new item by clicking the plus"/>');
+        setTimeout(function() {
+        $(".hiddenCool").animate({left: "-100%"}, 1000, function() {
+            $(".noLists").show("scale",{}, 400);
+        });
+        }, 500);
+    }
+
+
+    if (itemsData.length > 0) {
+        itemsData = itemsData.split(";");
+    }
+    for(i = 0; i < itemsData.length; i++) {
+            var dataFields = itemsData[i].split(",");
+            if (listID > 0) {
+                newItemsData.push([parseInt(dataFields[0]), parseInt(dataFields[1]) ,dataFields[2], dataFields[3], parseInt(dataFields[4])]);
+            }
+            else {
+                newItemsData.push([parseInt(dataFields[0]), dataFields[1] ,dataFields[2], parseInt(dataFields[3])]);
+            }
+    }
+    newItemsData.sort(sortByFirstColumn);
+
+    if (listID > 0) {
+
+    }
+    else {
+        for(i = 0; i < newItemsData.length; i++) {
+            var id = newItemsData[i][0];
+            var name = newItemsData[i][1];
+            var amount = newItemsData[i][2];
+            var isChecked = newItemsData[i][3];
+
+            if (isChecked == 0) {
+                $itemsContent.append('<div id="'+id+'" class="item_block item_block_background">'+amount+' '+name+'<img class="unchecked" src="images/checkbox_unchecked.png"></div>');
+            }
+            else {
+                $itemsContent.append('<div id="'+id+'" class="item_block item_block_background">'+amount+' '+name+'<img class="checked" src="images/checkbox_checked.png"></div>');
+            }
+        }
+    }
+
+
+    $(".list").on("tap", function(e) {
+        $(e.target).toggleClass("toggledItem");
+        // Save toggle in database + model
     });
+    $(".list").on("swipeleft swiperight", function(e) {
+        window.JSInterface.deleteList(e.target.id);
+        $(e.target).css({position: "relative"});
+        if (e.swipestart.coords[0] > e.swipestop.coords[0]) {
+            $(e.target).animate({right: "100%"}).hide('slow', function () {
+                updateListDisplay();
+            });
+        }
+        else {
+            $(e.target).animate({left: "100%"}).hide('slow', function () {
+                updateListDisplay();
+            });
+        }
+    });
+
+
+
+    setTimeout(function() {
+        $(".hiddenCool").animate({left: "-100%"}, 1000, function() {
+            $(".noLists").show("scale",{}, 400);
+        });
     }, 500);
 }
 
 function updateItemDisplay() {
-    if ($("#itemContent div:visible").length == 0) {
+    if ($("#itemsContent div:visible").length == 0) {
         $(".main_area").html('<img src="images/rainbow_item^^.png" class="noLists" alt="Add a new item by clicking the plus"/>');
     }
 }
@@ -20,13 +92,15 @@ function prepareButtons2() {
         $(".bottom_piece").animate({bottom: "-14em"});
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");
-        setTimeout(function() {window.JSInterface.inputDialog("Create new shopping list", "Please name your new list (no special chars):", "", "Create", "Cancel", "newShoppingList")}, 400);
+        setTimeout(function() {window.JSInterface.inputDialog("Add a new product", "Input product as amount, type and name. e.g 1 kg Flour (no special chars):", "", "Add", "Cancel", "addProduct");}, 400);
     });
     $("#rightButton2").on("tap", function() {
         $(".bottom_piece").animate({bottom: "-14em"});
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");
-        setTimeout(function() {window.JSInterface.inputDialog("Create new pantry list", "Please name your new list (no special chars):", "", "Create", "Cancel", "newPantryList")}, 400);
+        setTimeout(function() {
+            // START SCANNER
+        });
     });
 
     $(".newItem").on("tap", function() {
