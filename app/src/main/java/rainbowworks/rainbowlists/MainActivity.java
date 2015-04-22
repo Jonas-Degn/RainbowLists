@@ -24,6 +24,9 @@ import android.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.ListView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,7 +100,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.app_name,R.string.app_name);
 
         dbh = new DatabaseHandler(this);
-        //dbh.reset();
+        dbh.reset();
         populateLists();
 
         jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
@@ -358,5 +361,14 @@ public class MainActivity extends ActionBarActivity {
     public void setTitle(CharSequence title) {
         mTitle = title;
         getSupportActionBar().setTitle(mTitle);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            dbh.save("UPDATE items SET name='"+scanResult.getContents().toString()+"' WHERE name='emptyScan'");
+            populateLists();
+            JavaInterface.runJS("loadItems()");
+        }
     }
 }
