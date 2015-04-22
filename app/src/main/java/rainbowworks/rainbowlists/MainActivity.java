@@ -194,8 +194,8 @@ public class MainActivity extends ActionBarActivity {
                 int id = searchIDs[position];
                 String name = searchNames[position];
                 String type = searchTypes[position];
-                Log.i("Search","You selected ID "+id+" named "+name+" of type "+type);
-
+                setCurrentList(id);
+                JavaInterface.runJS("loadPage('itemOverview.html');");
                 return true;
             }
         });

@@ -329,6 +329,10 @@ public class JavaInterface {
     public static int getCurrentList() {
         return activity.getCurrentList();
     }
+    @android.webkit.JavascriptInterface
+    public static String getCurrentListName() {
+        return activity.getList(activity.getCurrentList()).getName();
+    }
 
     @android.webkit.JavascriptInterface
     public static void setCurrentAction(String action) {
@@ -339,6 +343,13 @@ public class JavaInterface {
     public static String getCurrentAction() {
         return activity.getCurrentAction();
     }
+
+
+    @android.webkit.JavascriptInterface
+    public static String getLocation() {
+        return activity.getLocation();
+    }
+
 
     public static void runJS(final String scriptSrc) {
         webView.post(new Runnable() {

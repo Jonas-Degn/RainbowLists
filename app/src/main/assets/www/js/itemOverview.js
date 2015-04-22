@@ -1,12 +1,17 @@
 function loadItems() {
     var $content = $(".main_area");
-    var itemsData = window.JSInterface.loadItems();
     var newItemsData = new Array();
     var $itemsContent;
     var listID = getCurrentList();
+    var itemsData = window.JSInterface.loadItems(listID);
 
     if (itemsData.length > 0) {
-        $content.html('<div id="items" class="item_block_title">Items</div><div id="itemsContent"></div>');
+        if (listID > 0) {
+            $content.html('<div id="items" class="item_block_title">'+getCurrentListName()+'</div><div id="itemsContent"></div>');
+        }
+        else {
+            $content.html('<div id="items" class="item_block_title">Items</div><div id="itemsContent"></div>');
+        }
         $itemsContent = $("#itemsContent");
     }
     else {

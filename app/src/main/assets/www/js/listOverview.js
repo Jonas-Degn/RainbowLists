@@ -58,9 +58,9 @@ function loadLists() {
     setTimeout(function() {
         $(".list_block").on("tap", function(e) {
             $(e.target).toggleClass("activeList");
-            var id = e.id;
+            var id = parseInt(e.target.id);
             setCurrentList(id);
-            //loadPage("list.html");
+            loadPage("itemOverview.html");
         });
         $(".list_block").on("swipeleft swiperight", function(e) {
             window.JSInterface.deleteList(e.target.id);
