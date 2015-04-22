@@ -3,6 +3,7 @@ package rainbowworks.rainbowlists;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.InputFilter;
@@ -13,10 +14,13 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
 public class JavaInterface {
+    private static final int RESULT_OK = 1;
+    private static final int RESULT_CANCELED = 0;
     static MainActivity activity;
     static WebView webView;
 
@@ -317,5 +321,26 @@ public class JavaInterface {
                 webView.loadUrl("javascript:" + scriptSrc);
             }
         });
+    }
+
+    public static void getBacrode() {
+        Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+        activity.startActivityForResult(intent, 0);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                // Once a barcode has been recognised, you'll receive the result in your Activity,
+                // here in the contents variable.
+                String contents = intent.getStringExtra("SCAN_RESULT");
+                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                // handle result OK
+                messageDialog("Kiro", "Stefan");
+            } else if (resultCode == RESULT_CANCELED) {
+                // handle cancel
+            }
+        }
     }
 }

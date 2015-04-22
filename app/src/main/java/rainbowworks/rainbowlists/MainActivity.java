@@ -2,6 +2,7 @@ package rainbowworks.rainbowlists;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.MatrixCursor;
@@ -14,9 +15,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.support.v7.widget.SearchView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.ListView;
@@ -44,10 +47,9 @@ public class MainActivity extends ActionBarActivity {
     // used to store app title
     private CharSequence mTitle;
 
-    // slide menu items
+    // Navigation drawer items
     private String[] navMenuTitles;
     private TypedArray navMenuIcons;
-
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
 
@@ -304,7 +306,7 @@ public class MainActivity extends ActionBarActivity {
                 }
                 count ++;
             }
-            lists.get(listID).addItem(id,name,amount,isChecked);
+            lists.get(listID).addItem(id, name, amount, isChecked);
         }
     }
 
@@ -356,5 +358,5 @@ public class MainActivity extends ActionBarActivity {
     public void setTitle(CharSequence title) {
         mTitle = title;
         getSupportActionBar().setTitle(mTitle);
-   }
+    }
 }
