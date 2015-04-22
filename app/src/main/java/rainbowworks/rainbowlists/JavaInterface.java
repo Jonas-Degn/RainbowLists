@@ -16,6 +16,8 @@ import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+
 import java.util.HashMap;
 import java.util.List;
 public class JavaInterface {
@@ -243,6 +245,13 @@ public class JavaInterface {
                                 activity.getDBH().save("INSERT INTO items (listID,name,amount,isChecked) VALUES ("+activity.getCurrentList()+",'" + name + "','" + amount + "',0)");
                                 activity.populateLists();
                                 break;
+                            case "scanProduct":
+                                // Save in database new product with name 'input.getText().toString()';
+                                // Add to HashMap 'lists' in MainActivity
+                                amount = input.getText().toString();
+                                activity.getDBH().save("INSERT INTO items (listID,name,amount,isChecked) VALUES ("+activity.getCurrentList()+",'emptyScan','" + amount + "',0)");
+                                getBarcode();
+                                break;
                         }
                         runJS("loadPage('" + activity.getLocation() + ".html')");
                     }
@@ -323,24 +332,10 @@ public class JavaInterface {
         });
     }
 
+    @android.webkit.JavascriptInterface
     public static void getBarcode() {
-        Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-        intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-        activity.startActivityForResult(intent, 0);
+        IntentIntegrator integrator = new IntentIntegrator(activity);
+        integrator.initiateScan();
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
-                // Once a barcode has been recognised, you'll receive the result in your Activity,
-                // here in the contents variable.
-                String contents = intent.getStringExtra("SCAN_RESULT");
-                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                // handle result OK
-                messageDialog("Kiro", "Stefan");
-            } else if (resultCode == RESULT_CANCELED) {
-                // handle cancel
-            }
-        }
-    }
 }

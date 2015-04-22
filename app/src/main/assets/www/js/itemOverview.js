@@ -99,7 +99,7 @@ function prepareButtons2() {
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");
         setTimeout(function() {
-            // START SCANNER
+            window.JSInterface.inputDialog("Set amount", "Input amount and type. e.g 1 kg, 1 liter (no special chars):", "", "Continue", "Cancel", "scanProduct");
         });
     });
 
