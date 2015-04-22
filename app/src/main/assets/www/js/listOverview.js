@@ -9,11 +9,11 @@ function loadLists() {
 
     if (shoppingData.length > 0 || pantryData.length > 0) {
         if (shoppingData.length > 0) {
-            $content.append('<div id="shopping" class="list_block">Shopping lists</div><div id="shoppingContent"></div>');
+            $content.append('<div id="shopping" class="list_block_title">Shopping lists</div><div id="shoppingContent"></div>');
             $shoppingContent = $("#shoppingContent");
         }
         if (pantryData.length > 0) {
-            $content.append('<div id="pantry" class="list_block">Pantry lists</div><div id="pantryContent"></div>');
+            $content.append('<div id="pantry" class="list_block_title">Pantry lists</div><div id="pantryContent"></div>');
             $pantryContent = $("#pantryContent");
         }
     }
@@ -38,7 +38,7 @@ function loadLists() {
     for(i = 0; i < newShoppingData.length; i++) {
         var id = newShoppingData[i][0];
         var name = newShoppingData[i][1];
-        $shoppingContent.append('<div id="'+id+'" class="list list_block">'+name+' <img class="listLine" src="images/list_line.png"></div>');
+        $shoppingContent.append('<div id="'+id+'" class="list_block list_block_background">'+name+'</div>');
     }
 
     if (pantryData.length > 0) {
@@ -52,7 +52,7 @@ function loadLists() {
     for(i = 0; i < newPantryData.length; i++) {
         var id = newPantryData[i][0];
         var name = newPantryData[i][1];
-        $pantryContent.append('<div id="'+id+'" class="list list_block">'+name+' <img class="listLine" src="images/list_line.png"></div>');
+        $pantryContent.append('<div id="'+id+'" class="list_block list_block_background">'+name+'</div>');
     }
 
     $(".list").on("tap", function(e) {

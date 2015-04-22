@@ -5,15 +5,15 @@ package rainbowworks.rainbowlists;
  */
 public class Item {
     private int id;
-    private int quantity;
+    private String quantity;
     private String name;
     private boolean isChecked;
 
-    public Item (int id, String name, int quantity)  {
+    public Item (int id, String name, String quantity, boolean isChecked)  {
         this.id = id;
         this.quantity = quantity;
         this.name = name;
-        this.isChecked = false;
+        this.isChecked = isChecked;
     }
 
     protected int getID () {
@@ -36,11 +36,11 @@ public class Item {
         return isChecked;
     }
 
-    protected void setQuantity (int quantity) {
+    protected void setQuantity (String quantity) {
         this.quantity = quantity;
     }
 
-    protected int getQuantity () {
+    protected String getQuantity () {
         return quantity;
     }
 }

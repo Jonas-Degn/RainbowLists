@@ -68,6 +68,9 @@ public class MainActivity extends ActionBarActivity {
                 .obtainTypedArray(R.array.nav_drawer_icons);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //make fade color transparent, ergo NO fading color
+        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+
         mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
         navDrawerItems = new ArrayList<>();
@@ -92,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.app_name,R.string.app_name);
 
         dbh = new DatabaseHandler(this);
-        dbh.reset();
+        //dbh.reset();
         populateLists();
 
         jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
@@ -261,6 +264,10 @@ public class MainActivity extends ActionBarActivity {
     protected void populateLists() {
         lists = new HashMap<Integer, RainbowList>();
         List<List<String>> newLists = dbh.load("SELECT * FROM lists");
+        List<List<String>> newItems = dbh.load("SELECT * FROM items");
+
+        lists.put(Integer.valueOf(0),new RainbowList(0,"empty",""));
+        lists.get(Integer.valueOf(0)).addItem(0,"empty","0",false);
         for(List<String> row : newLists) {
             int count = 0;
             int id = 0;
@@ -268,22 +275,36 @@ public class MainActivity extends ActionBarActivity {
             String type = "none";
             for (String column : row) {
                 switch(count) {
-                    case 0:
-                        id = Integer.parseInt(column);
-                        break;
-                    case 1:
-                        name = column;
-                        break;
-                    case 2:
-                        type = column;
-                        break;
-                    default:
-                        Log.i("Column",column+" is not populated");
+                    case 0: id = Integer.parseInt(column); break;
+                    case 1: name = column; break;
+                    case 2: type = column; break;
+                    default: Log.i("Column",column+" is not populated");
                 }
                 count ++;
             }
-
-            lists.put(new Integer(id),new RainbowList(id,name,type));
+            lists.put(Integer.valueOf(id),new RainbowList(id,name,type));
+            lists.get(id).addItem(0,"empty","0",false);
+        }
+        for(List<String> row2 : newItems) {
+            int count = 0;
+            int id = 0;
+            int listID = 0;
+            String name = "empty";
+            String amount = "empty";
+            boolean isChecked = false;
+            for (String column : row2) {
+                // (ID INTEGER PRIMARY KEY AUTOINCREMENT, listID INTEGER, name CHAR(32), amount CHAR(32), isChecked INTEGER)
+                switch(count) {
+                    case 0: id = Integer.parseInt(column); break;
+                    case 1: listID = Integer.parseInt(column); break;
+                    case 2: name = column; break;
+                    case 3: amount = column; break;
+                    case 4: isChecked = (Integer.parseInt(column) != 0); break;
+                    default: Log.i("Column",column+" is not populated");
+                }
+                count ++;
+            }
+            lists.get(listID).addItem(id,name,amount,isChecked);
         }
     }
 
