@@ -142,16 +142,28 @@ p.setting_block_checkbox{
 	text-align:right;
 }
 
-div.list_block, div.item_block{
+div.list_block{
 	font-family: Arial;
 	color: #222222;
 	font-size: 26px;
 	line-height: 30px;
 	padding:10px 0 10px 40px;
 }
-div.item_block img {
-    width:40px;
+div.item_block{
+	font-family: Arial;
+	color: #222222;
+	font-size: 26px;
+	line-height: 40px;
+	padding:10px 0 10px 40px;
 }
+div.item_block img {
+	width: 26px;
+	height: 26px;
+    float:right;
+    padding-right:20px;
+    padding-top:5px;
+}
+
 div.setting_block{
 	padding:40px 20px 40px 50px;
 	background-color:#ffffff;
@@ -172,11 +184,6 @@ div.item_block_background{
 	background-repeat:no-repeat;
 	background-position: bottom right;
 	background-size: 100%;
-}
-div.item_block img,
-div.list_block img{
-	float:right;
-	padding-right:20px;
 }
 
 div.bottom_piece{
@@ -229,8 +236,10 @@ div.left_button.item {
 	background-repeat: no-repeat;
 	background-position: bottom left;
 }
-.clickRightButton.blue:active {
+.clickLeftButton.blue:active {
     background-image:url("../images/l_button_active_blue.png");
+	background-repeat: no-repeat;
+	background-position: bottom left;
 }
 
 div.left_button_image img{
@@ -255,10 +264,12 @@ div.right_button.item {
 .clickRightButton:active{
 	background-image:url("../images/r_button_active.png");
 	background-repeat: no-repeat;
-	background-position: bottom left;
+	background-position: bottom right;
 }
 .clickRightButton.blue:active {
     background-image:url("../images/r_button_active_blue.png");
+	background-repeat: no-repeat;
+	background-position: bottom right;
 }
 
 div.right_button_image img{

@@ -278,6 +278,23 @@ public class JavaInterface {
         activity.populateLists();
     }
 
+    @android.webkit.JavascriptInterface
+    public static void deleteItem(String id) {
+        activity.getDBH().save("DELETE FROM items WHERE id = " + id);
+        activity.populateLists();
+    }
+
+    @android.webkit.JavascriptInterface
+    public static void checkItem(String id) {
+        activity.getDBH().save("UPDATE items SET isChecked=1 WHERE id = " + id);
+        activity.populateLists();
+    }
+
+    @android.webkit.JavascriptInterface
+    public static void decheckItem(String id) {
+        activity.getDBH().save("UPDATE items SET isChecked=0 WHERE id = " + id);
+        activity.populateLists();
+    }
 
     @android.webkit.JavascriptInterface
     public static void setLocation(String file) {

@@ -6,7 +6,7 @@ function loadItems() {
     var listID = getCurrentList();
 
     if (itemsData.length > 0) {
-        $content.append('<div id="items" class="item_block_title">Items</div><div id="itemsContent"></div>');
+        $content.html('<div id="items" class="item_block_title">Items</div><div id="itemsContent"></div>');
         $itemsContent = $("#itemsContent");
     }
     else {
@@ -44,46 +44,53 @@ function loadItems() {
             var isChecked = newItemsData[i][3];
 
             if (isChecked == 0) {
-                $itemsContent.append('<div id="'+id+'" class="item_block item_block_background">'+amount+' '+name+'<img class="unchecked" src="images/checkbox_unchecked.png"></div>');
+                $itemsContent.append('<div id="'+id+'" class="item_block item_block_background">'+amount+' '+name+' <img src="images/checkbox_unchecked.png" alt="checkBox"></div>');
             }
             else {
-                $itemsContent.append('<div id="'+id+'" class="item_block item_block_background">'+amount+' '+name+'<img class="checked" src="images/checkbox_checked.png"></div>');
+                $itemsContent.append('<div id="'+id+'" class="item_block item_block_background crossedout">'+amount+' '+name+' <img src="images/checkbox_checked.png" alt="checkBox"></div>');
             }
         }
     }
 
-
-    $(".list").on("tap", function(e) {
-        $(e.target).toggleClass("toggledItem");
-        // Save toggle in database + model
-    });
-    $(".list").on("swipeleft swiperight", function(e) {
-        window.JSInterface.deleteList(e.target.id);
-        $(e.target).css({position: "relative"});
-        if (e.swipestart.coords[0] > e.swipestop.coords[0]) {
-            $(e.target).animate({right: "100%"}).hide('slow', function () {
-                updateListDisplay();
-            });
-        }
-        else {
-            $(e.target).animate({left: "100%"}).hide('slow', function () {
-                updateListDisplay();
-            });
-        }
-    });
-
-
-
     setTimeout(function() {
-        $(".hiddenCool").animate({left: "-100%"}, 1000, function() {
-            $(".noLists").show("scale",{}, 400);
+        $(".item_block").on("tap", function(e) {
+            var id = e.target.id;
+            if ($(e.target).find("img")[0].src == "file:///android_asset/www/images/checkbox_unchecked.png") {
+                window.JSInterface.checkItem(id);
+                $(e.target).find("img")[0].src = "file:///android_asset/www/images/checkbox_checked.png";
+                $(e.target).toggleClass("crossedout");
+            }
+            else {
+                window.JSInterface.decheckItem(id);
+                $(e.target).find("img")[0].src = "file:///android_asset/www/images/checkbox_unchecked.png";
+                $(e.target).toggleClass("crossedout");
+            }
+        });
+        $(".item_block").on("swipeleft swiperight", function(e) {
+            window.JSInterface.deleteItem(e.target.id);
+            $(e.target).css({position: "relative"});
+            if (e.swipestart.coords[0] > e.swipestop.coords[0]) {
+                $(e.target).animate({right: "100%"}).hide('slow', function () {
+                    updateItemDisplay();
+                });
+            }
+            else {
+                $(e.target).animate({left: "100%"}).hide('slow', function () {
+                    updateItemDisplay();
+                });
+            }
         });
     }, 500);
 }
 
 function updateItemDisplay() {
     if ($("#itemsContent div:visible").length == 0) {
-        $(".main_area").html('<img src="images/rainbow_item^^.png" class="noLists" alt="Add a new item by clicking the plus"/>');
+        $(".main_area").html('<img src="images/hidden.gif" class="hiddenCool" /><img src="images/rainbow_item^^.png" class="noLists" alt="Add a new item by clicking the plus"/>');
+        setTimeout(function() {
+            $(".hiddenCool").animate({left: "-100%"}, 1000, function() {
+                $(".noLists").show("scale",{}, 400);
+            });
+        }, 500);
     }
 }
 
