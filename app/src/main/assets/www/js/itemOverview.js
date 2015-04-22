@@ -6,7 +6,7 @@ function loadItems() {
     var listID = getCurrentList();
 
     if (itemsData.length > 0) {
-        $content.append('<div id="items" class="list_block">Items</div><div id="itemsContent"></div>');
+        $content.append('<div id="items" class="item_block_title">Items</div><div id="itemsContent"></div>');
         $itemsContent = $("#itemsContent");
     }
     else {

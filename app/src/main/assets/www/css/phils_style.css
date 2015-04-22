@@ -1,0 +1,195 @@
+/*resets*/
+p{
+	margin:0;
+	padding:0;
+}
+body{
+	background-color: #282828;
+}
+div.body{
+	position:relative;
+	background-color:#FFFFFF;
+	margin-left: auto;
+    margin-right: auto;
+	overflow:hidden;
+}
+div.beige{
+	background-color:#eaeaea;
+}
+div.top_curve img{
+	position:relative;
+	width:100%;
+	height:auto;
+}
+div.top_piece{
+	height: 345px;
+}
+
+div.main_area{
+	width: 100%;
+	height: 1200px;
+	overflow-x:hidden;
+	overflow-y: scroll; /* has to be scroll, not auto */
+	-webkit-overflow-scrolling: touch;
+}
+.main_area::-webkit-scrollbar { width: 0 !important }
+div.list_block_title{
+	position:relative;
+	top:10px;
+	font-family: Arial;
+	color: #222222;
+	font-size: 50px;
+	font-weight: 300;
+	line-height: 100%;
+	padding:60px 0 0px 200px;
+
+}
+p.setting_block_title{
+	width:40%;
+	float:left;
+	font-family: Arial;
+	color: #4d4d4d;
+	font-size: 65px;
+	font-weight: 300;
+	line-height: 100%;
+	white-space: nowrap;
+}
+p.setting_block_text{
+	width:40%;
+	float:right;
+	text-align:right;
+	font-family: Arial;
+	color: #2e0927;
+	font-size: 45px;
+	font-weight: 500;
+	line-height: 100%;
+	white-space: nowrap;
+	padding-top:10px;
+}
+p.setting_block_checkbox{
+	position:relative;
+	top:-20px;
+	width:40%;
+	float:right;
+	text-align:right;
+}
+div.list_block{
+	font-family: Arial;
+	color: #222222;
+	font-size: 65px;
+	font-weight: 300;
+	line-height: 80px;
+	padding:40px 0 25px 180px;
+}
+div.item_block{
+	font-family: Arial;
+	color: #222222;
+	font-size: 65px;
+	font-weight: 300;
+	line-height: 80px;
+	padding:40px 0 40px 180px;
+}
+div.setting_block{
+	padding:40px 20px 40px 50px;
+	background-color:#ffffff;
+	margin:15px 30px 10px 30px;
+	box-shadow: 3px 3px 5px #888888;
+	height:50px;
+	overflow:hidden;
+}
+div.list_block_bacground{
+	background-image:url("file:///C:/Users/Philip/Desktop/Rainbow%20shopping/rs_pages/assets/images/list_line.png");
+	background-repeat:no-repeat;
+	background-position: bottom right; 
+}
+div.item_block_bacground{
+	background-image:url("file:///C:/Users/Philip/Desktop/Rainbow%20shopping/rs_pages/assets/images/item_line.png");
+	background-repeat:no-repeat;
+	background-position: bottom right; 
+}
+div.item_block img,
+div.list_block img{
+	float:right;
+	padding-right:20px;
+}
+div.bot_curve img{	
+	width:100%;
+	height:auto;
+}
+div.bot_curve{
+	position:relative;
+	width:100%;
+	height:auto;
+	z-index:1;
+	top:7px;
+	
+}
+div.bottom_piece{
+	position:fixed;
+	bottom:0px;
+	width:100%;
+	height: auto;
+}
+div.left_button{
+	position:relative;
+	display:block;
+	width:50%;
+	text-align:center;
+	float:left;
+}
+.red{ background-color:#f1584a;}
+.blue{ background-color:#27a0ab;}
+.purple{background-color:#2e0927;}
+div.left_button_red:active{
+	background-image:url("file:///C:/Users/Philip/Android%20Projects/RainbowLists/app/src/main/assets/www/images/l_button_active.png");
+	background-repeat: no-repeat;
+	background-position: bottom left; 
+}
+div.left_button_blue:active{
+	background-image:url("file:///C:/Users/Philip/Android%20Projects/RainbowLists/app/src/main/assets/www/images/l_button_active_blue.png");
+	background-repeat: no-repeat;
+	background-position: bottom left; 
+}
+div.left_button_image img{
+	width:30%;
+	padding-top:10px;
+	padding-bottom:20px;
+	height:auto;
+}
+div.right_button{
+	position:relative;
+	display:block;
+	width:50%;
+	text-align:center;
+	float:right;	
+}
+div.right_button_red:active{
+	background-image:url("file:///C:/Users/Philip/Android%20Projects/RainbowLists/app/src/main/assets/www/images/r_button_active.png");
+	background-repeat: no-repeat;
+	background-position: bottom right; 
+}
+div.right_button_blue:active{
+	background-image:url("file:///C:/Users/Philip/Android%20Projects/RainbowLists/app/src/main/assets/www/images/r_button_active_blue.png");
+	background-repeat: no-repeat;
+	background-position: bottom right; 
+}
+div.right_button_image img{
+	width:30%;
+	padding-top:10px;
+	padding-bottom:20px;
+	height:auto;
+}
+#list_button_text{
+	font-family: Arial;
+	color: #FFFFFF;
+	font-size:50px;
+	padding-bottom:30px;
+	white-space: nowrap;
+}
+div.crossedout{
+	text-decoration:line-through;
+	color:grey;
+}
+#checked{
+
+}

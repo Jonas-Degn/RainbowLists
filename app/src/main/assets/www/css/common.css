@@ -103,15 +103,15 @@ div.main_area{
         color-stop(100%, rgba(255, 0, 0, 1)));
 }
 
-div.list_block_title{
+div.list_block_title, div.item_block_title{
 	position:relative;
 	top:10px;
 	font-family: Arial;
 	color: #222222;
 	font-size: 50px;
-	font-weight: 300;
 	line-height: 100%;
-	padding:60px 0 0px 200px;
+	padding:0 0 40px 0;
+	text-align:center;
 }
 p.setting_block_title{
 	width:40%;
@@ -153,10 +153,14 @@ div.list_block{
 div.item_block{
 	font-family: Arial;
 	color: #222222;
-	font-size: 65px;
+	font-size: 30px;
 	font-weight: 300;
-	line-height: 80px;
-	padding:40px 0 40px 180px;
+	line-height: 40px;
+	padding:0 0 20px 0;
+    text-align:center;
+}
+div.item_block img {
+    width:40px;
 }
 div.setting_block{
 	padding:40px 20px 40px 50px;
