@@ -55,26 +55,28 @@ function loadLists() {
         $pantryContent.append('<div id="'+id+'" class="list_block list_block_background">'+name+'</div>');
     }
 
-    $(".list").on("tap", function(e) {
-        $(e.target).toggleClass("activeList");
-        var id = e.id;
-        setCurrentList(id);
-        //loadPage("list.html");
-    });
-    $(".list").on("swipeleft swiperight", function(e) {
-        window.JSInterface.deleteList(e.target.id);
-        $(e.target).css({position: "relative"});
-        if (e.swipestart.coords[0] > e.swipestop.coords[0]) {
-            $(e.target).animate({right: "100%"}).hide('slow', function () {
-                updateListDisplay();
-            });
-        }
-        else {
-            $(e.target).animate({left: "100%"}).hide('slow', function () {
-                updateListDisplay();
-            });
-        }
-    });
+    setTimeout(function() {
+        $(".list_block").on("tap", function(e) {
+            $(e.target).toggleClass("activeList");
+            var id = e.id;
+            setCurrentList(id);
+            //loadPage("list.html");
+        });
+        $(".list_block").on("swipeleft swiperight", function(e) {
+            window.JSInterface.deleteList(e.target.id);
+            $(e.target).css({position: "relative"});
+            if (e.swipestart.coords[0] > e.swipestop.coords[0]) {
+                $(e.target).animate({right: "100%"}).hide('slow', function () {
+                    updateListDisplay();
+                });
+            }
+            else {
+                $(e.target).animate({left: "100%"}).hide('slow', function () {
+                    updateListDisplay();
+                });
+            }
+        });
+    }, 500);
 }
 
 function updateListDisplay() {
@@ -85,7 +87,12 @@ function updateListDisplay() {
         $("#pantry").hide('slow');
     };
     if ($("#shoppingContent div:visible").length == 0 && $("#pantryContent div:visible").length == 0) {
-        $(".main_area").html('<img src="images/rainbow^^.png" class="noLists" alt="Create a new list by clicking the plus"/>');
+        $(".main_area").html('<img src="images/hidden.gif" class="hiddenCool" /><img src="images/rainbow^^.png" class="noLists" alt="Create a new list by clicking the plus"/>');
+        setTimeout(function() {
+            $(".hiddenCool").animate({left: "-100%"}, 1000, function() {
+                $(".noLists").show("scale",{}, 400);
+            });
+        }, 500);
     }
 }
 
