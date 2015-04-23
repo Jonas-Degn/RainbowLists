@@ -151,7 +151,7 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * Restore the state of our webview - used for mechanics that may try to reset our webview
-     * @param savedInstanceState
+     * @param savedInstanceState the instance to restore
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){
@@ -170,7 +170,6 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
 
     /**
      * Contains alle the code for preparing our menu, which now only consists of our searching
