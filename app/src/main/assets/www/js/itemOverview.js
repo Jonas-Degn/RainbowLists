@@ -30,7 +30,7 @@ function loadItems() {
     }
     for(i = 0; i < itemsData.length; i++) {
             var dataFields = itemsData[i].split(",");
-            newItemsData.push([parseInt(dataFields[0]), parseInt(dataFields[1]) ,dataFields[2], dataFields[3], parseInt(!Boolean(dataFields[4])?1:0)]);
+            newItemsData.push([parseInt(dataFields[0]), parseInt(dataFields[1]) ,dataFields[2], dataFields[3], parseInt(dataFields[4]=="true"?1:0)]);
     }
     newItemsData.sort(sortByFirstColumn);
 

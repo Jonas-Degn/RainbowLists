@@ -78,16 +78,32 @@ public class JavaInterface {
     @android.webkit.JavascriptInterface
     public static String loadItems(int listID) {
         String foundItems = "";
-        RainbowList currentList = activity.getList(listID);
 
-        for(HashMap.Entry<Integer, Item> entry : currentList.getItems().entrySet()) {
-            Item item = entry.getValue();
-            if (!item.getName().equals("empty")) {
-                if (foundItems.equals("")) {
-                    foundItems += currentList.getID()+","+item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
+        if (listID == 0) {
+            for (HashMap.Entry<Integer, RainbowList> entry : activity.getLists().entrySet()) {
+                for (HashMap.Entry<Integer, Item> entry2 : entry.getValue().getItems().entrySet()){
+                    Item item = entry2.getValue();
+                    if (!item.getName().equals("empty")) {
+                        if (foundItems.equals("")) {
+                            foundItems += listID + "," + item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + item.getIsChecked();
+                        } else {
+                            foundItems += ";" + listID + "," + item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + item.getIsChecked();
+                        }
+                    }
                 }
-                else {
-                    foundItems += ";"+currentList.getID()+","+item.getID()+","+item.getName()+","+item.getQuantity()+","+item.getIsChecked();
+            }
+        }
+        else {
+            RainbowList currentList = activity.getList(listID);
+            for(HashMap.Entry<Integer, Item> entry : currentList.getItems().entrySet()) {
+                Item item = entry.getValue();
+                if (!item.getName().equals("empty")) {
+                    if (foundItems.equals("")) {
+                        foundItems += currentList.getID() + "," + item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + item.getIsChecked();
+                    }
+                    else {
+                        foundItems += ";" + currentList.getID() + "," + item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + item.getIsChecked();
+                    }
                 }
             }
         }
@@ -319,15 +335,6 @@ public class JavaInterface {
                     }
                 });
                 break;
-            case "settings":
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0x16777215));
-                        //activity.getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.white));
-                    }
-                });
-                break;
         }
     }
 
@@ -376,8 +383,11 @@ public class JavaInterface {
         integrator.initiateScan();
     }
 
+    @android.webkit.JavascriptInterface
     public void resetDB() {
         activity.getDBH().reset();
+        activity.populateLists();
+        messageDialog("Reset","All your lists and items have been removed.");
     }
 
 }
