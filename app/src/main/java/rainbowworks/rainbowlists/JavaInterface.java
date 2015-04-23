@@ -317,6 +317,15 @@ public class JavaInterface {
                     }
                 });
                 break;
+            case "settings":
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0x16777215));
+                        //activity.getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.white));
+                    }
+                });
+                break;
         }
     }
 
