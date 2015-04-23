@@ -226,7 +226,6 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // toggle nav drawer on selecting action bar app icon/title
         if (mDrawerToggle.onOptionsItemSelected(item)) {
-            Log.i("tap", "burger");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -370,9 +369,5 @@ public class MainActivity extends ActionBarActivity {
             populateLists();
             JavaInterface.runJS("loadItems()");
         }
-    }
-
-    public void resetDB() {
-        dbh.reset();
     }
 }
