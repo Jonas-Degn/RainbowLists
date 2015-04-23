@@ -1,9 +1,9 @@
 function loadItems() {
-    var $content = $(".main_area");
-    var newItemsData = new Array();
-    var $itemsContent;
-    var listID = getCurrentList();
-    var itemsData = window.JSInterface.loadItems(listID);
+    $content = $(".main_area");
+    newItemsData = new Array();
+    $itemsContent = "";
+    listID = getCurrentList();
+    itemsData = window.JSInterface.loadItems(listID);
 
     if (itemsData.length > 0) {
         if (listID > 0) {
@@ -21,6 +21,7 @@ function loadItems() {
             $(".noLists").show("scale",{}, 400);
         });
         }, 500);
+        return;
     }
 
 
@@ -29,31 +30,22 @@ function loadItems() {
     }
     for(i = 0; i < itemsData.length; i++) {
             var dataFields = itemsData[i].split(",");
-            if (listID > 0) {
-                newItemsData.push([parseInt(dataFields[0]), parseInt(dataFields[1]) ,dataFields[2], dataFields[3], parseInt(dataFields[4])]);
-            }
-            else {
-                newItemsData.push([parseInt(dataFields[0]), dataFields[1] ,dataFields[2], parseInt(dataFields[3])]);
-            }
+            newItemsData.push([parseInt(dataFields[0]), parseInt(dataFields[1]) ,dataFields[2], dataFields[3], parseInt(!Boolean(dataFields[4])?1:0)]);
     }
     newItemsData.sort(sortByFirstColumn);
 
-    if (listID > 0) {
+    for(i = 0; i < newItemsData.length; i++) {
+        var listID = newItemsData[i][0];
+        var id = newItemsData[i][1]
+        var name = newItemsData[i][2];
+        var amount = newItemsData[i][3];
+        var isChecked = newItemsData[i][4];
 
-    }
-    else {
-        for(i = 0; i < newItemsData.length; i++) {
-            var id = newItemsData[i][0];
-            var name = newItemsData[i][1];
-            var amount = newItemsData[i][2];
-            var isChecked = newItemsData[i][3];
-
-            if (isChecked == 0) {
-                $itemsContent.append('<div id="'+id+'" class="item_block item_block_background">'+amount+' '+name+' <img src="images/checkbox_unchecked.png" alt="checkBox"></div>');
-            }
-            else {
-                $itemsContent.append('<div id="'+id+'" class="item_block item_block_background crossedout">'+amount+' '+name+' <img src="images/checkbox_checked.png" alt="checkBox"></div>');
-            }
+        if (isChecked == 0) {
+            $itemsContent.append('<div id="'+id+'" class="item_block item_block_background">'+amount+' '+name+' <img src="images/checkbox_unchecked.png" alt="checkBox"></div>');
+        }
+        else {
+            $itemsContent.append('<div id="'+id+'" class="item_block item_block_background crossedout">'+amount+' '+name+' <img src="images/checkbox_checked.png" alt="checkBox"></div>');
         }
     }
 

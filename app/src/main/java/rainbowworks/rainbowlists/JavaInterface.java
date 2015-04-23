@@ -21,8 +21,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import java.util.HashMap;
 import java.util.List;
 public class JavaInterface {
-    private static final int RESULT_OK = 1;
-    private static final int RESULT_CANCELED = 0;
     static MainActivity activity;
     static WebView webView;
 
@@ -304,16 +302,20 @@ public class JavaInterface {
                 activity.runOnUiThread(new Runnable(){
                     public void run() {
                         activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xfff2594b));
-                        //activity.getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.orange));
                     }
                 });
-
                 break;
             case "itemOverview":
                 activity.runOnUiThread(new Runnable(){
                     public void run() {
                         activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff27a0ab));
-                        //activity.getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.blue));
+                    }
+                });
+                break;
+            case "settings":
+                activity.runOnUiThread(new Runnable(){
+                    public void run() {
+                        activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xffffffff));
                     }
                 });
                 break;

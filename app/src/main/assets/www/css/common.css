@@ -2,6 +2,7 @@
 
 .ui-mobile .ui-page-active {
     overflow-x: auto !important;
+    height: 100%;
 }
 .ui-page {
     background-color: #ffffff;
@@ -53,10 +54,10 @@ body{
 
 div.body{
 	position:relative;
-	background-color:white;
 	margin-left: auto;
     margin-right: auto;
 	overflow:hidden;
+	height: 100%;
 }
 div.top_curve img{
 	position: fixed;
@@ -113,33 +114,26 @@ div.list_block_title, div.item_block_title{
 	padding:10px 0 10px 40px;
 }
 p.setting_block_title{
-	width:40%;
 	float:left;
 	font-family: Arial;
 	color: #4d4d4d;
-	font-size: 65px;
-	font-weight: 300;
-	line-height: 100%;
-	white-space: nowrap;
+	font-size: 20px;
+	line-height: 10px;
+	padding-left: 20px;
 }
 p.setting_block_text{
-	width:40%;
 	float:right;
-	text-align:right;
 	font-family: Arial;
 	color: #2e0927;
-	font-size: 45px;
-	font-weight: 500;
-	line-height: 100%;
-	white-space: nowrap;
-	padding-top:10px;
+	font-size: 16px;
+	line-height: 16px;
+	padding-right: 10px;
 }
-p.setting_block_checkbox{
-	position:relative;
-	top:-20px;
-	width:40%;
-	float:right;
-	text-align:right;
+p.setting_block_checkbox img{
+    width: 30px;
+    height: 30px;
+    float: right;
+    padding-right: 10px;
 }
 
 div.list_block{
@@ -165,7 +159,6 @@ div.item_block img {
 }
 
 div.setting_block{
-	padding:40px 20px 40px 50px;
 	background-color:#ffffff;
 	margin:15px 30px 10px 30px;
 	box-shadow: 3px 3px 5px #888888;

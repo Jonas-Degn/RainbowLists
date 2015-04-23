@@ -43,6 +43,12 @@ function preparePage(url) {
     if (url != "itemOverview.html") {
         setCurrentList(0);
     }
+    if (url == "settings.html") {
+        $("#content").toggleClass("beige",true);
+    }
+    else {
+        $("#content").toggleClass("beige",false);
+    }
 }
 
 function finishPage(url) {
