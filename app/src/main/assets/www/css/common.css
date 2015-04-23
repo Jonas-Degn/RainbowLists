@@ -108,10 +108,9 @@ div.list_block_title, div.item_block_title{
 	top:10px;
 	font-family: Arial;
 	color: #222222;
-	font-size: 50px;
+	font-size: 20px;
 	line-height: 100%;
-	padding:0 0 40px 0;
-	text-align:center;
+	padding:10px 0 10px 40px;
 }
 p.setting_block_title{
 	width:40%;
@@ -142,26 +141,29 @@ p.setting_block_checkbox{
 	float:right;
 	text-align:right;
 }
+
 div.list_block{
 	font-family: Arial;
 	color: #222222;
-	font-size: 65px;
-	font-weight: 300;
-	line-height: 80px;
-	padding:40px 0 25px 180px;
+	font-size: 26px;
+	line-height: 30px;
+	padding:10px 0 10px 40px;
 }
 div.item_block{
 	font-family: Arial;
 	color: #222222;
-	font-size: 30px;
-	font-weight: 300;
+	font-size: 26px;
 	line-height: 40px;
-	padding:0 0 20px 0;
-    text-align:center;
+	padding:10px 0 10px 40px;
 }
 div.item_block img {
-    width:40px;
+	width: 26px;
+	height: 26px;
+    float:right;
+    padding-right:20px;
+    padding-top:5px;
 }
+
 div.setting_block{
 	padding:40px 20px 40px 50px;
 	background-color:#ffffff;
@@ -175,16 +177,13 @@ div.list_block_background{
 	background-image:url("../images/list_line.png");
 	background-repeat:no-repeat;
 	background-position: bottom right;
+	background-size: 100%;
 }
 div.item_block_background{
 	background-image:url("../images/item_line.png");
 	background-repeat:no-repeat;
 	background-position: bottom right;
-}
-div.item_block img,
-div.list_block img{
-	float:right;
-	padding-right:20px;
+	background-size: 100%;
 }
 
 div.bottom_piece{
@@ -237,8 +236,10 @@ div.left_button.item {
 	background-repeat: no-repeat;
 	background-position: bottom left;
 }
-.clickRightButton.blue:active {
+.clickLeftButton.blue:active {
     background-image:url("../images/l_button_active_blue.png");
+	background-repeat: no-repeat;
+	background-position: bottom left;
 }
 
 div.left_button_image img{
@@ -263,10 +264,12 @@ div.right_button.item {
 .clickRightButton:active{
 	background-image:url("../images/r_button_active.png");
 	background-repeat: no-repeat;
-	background-position: bottom left;
+	background-position: bottom right;
 }
 .clickRightButton.blue:active {
     background-image:url("../images/r_button_active_blue.png");
+	background-repeat: no-repeat;
+	background-position: bottom right;
 }
 
 div.right_button_image img{

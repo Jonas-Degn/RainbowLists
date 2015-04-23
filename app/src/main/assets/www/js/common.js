@@ -22,6 +22,10 @@ function getCurrentList() {
     return window.JSInterface.getCurrentList();
 }
 
+function getCurrentListName() {
+    return window.JSInterface.getCurrentListName();
+}
+
 function loadPage(url) {
     $.mobile.loading('show');
     $("#newContent").load(url+" #content", function() {
@@ -36,6 +40,9 @@ function loadPage(url) {
 }
 
 function preparePage(url) {
+    if (url != "itemOverview.html") {
+        setCurrentList(0);
+    }
 }
 
 function finishPage(url) {

@@ -100,7 +100,6 @@ public class MainActivity extends ActionBarActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.app_name,R.string.app_name);
 
         dbh = new DatabaseHandler(this);
-        //dbh.reset();
         populateLists();
 
         jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
@@ -194,8 +193,8 @@ public class MainActivity extends ActionBarActivity {
                 int id = searchIDs[position];
                 String name = searchNames[position];
                 String type = searchTypes[position];
-                Log.i("Search","You selected ID "+id+" named "+name+" of type "+type);
-
+                setCurrentList(id);
+                JavaInterface.runJS("loadPage('itemOverview.html');");
                 return true;
             }
         });
@@ -227,6 +226,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // toggle nav drawer on selecting action bar app icon/title
         if (mDrawerToggle.onOptionsItemSelected(item)) {
+            Log.i("tap", "burger");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -370,5 +370,9 @@ public class MainActivity extends ActionBarActivity {
             populateLists();
             JavaInterface.runJS("loadItems()");
         }
+    }
+
+    public void resetDB() {
+        dbh.reset();
     }
 }

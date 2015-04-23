@@ -278,6 +278,23 @@ public class JavaInterface {
         activity.populateLists();
     }
 
+    @android.webkit.JavascriptInterface
+    public static void deleteItem(String id) {
+        activity.getDBH().save("DELETE FROM items WHERE id = " + id);
+        activity.populateLists();
+    }
+
+    @android.webkit.JavascriptInterface
+    public static void checkItem(String id) {
+        activity.getDBH().save("UPDATE items SET isChecked=1 WHERE id = " + id);
+        activity.populateLists();
+    }
+
+    @android.webkit.JavascriptInterface
+    public static void decheckItem(String id) {
+        activity.getDBH().save("UPDATE items SET isChecked=0 WHERE id = " + id);
+        activity.populateLists();
+    }
 
     @android.webkit.JavascriptInterface
     public static void setLocation(String file) {
@@ -312,6 +329,10 @@ public class JavaInterface {
     public static int getCurrentList() {
         return activity.getCurrentList();
     }
+    @android.webkit.JavascriptInterface
+    public static String getCurrentListName() {
+        return activity.getList(activity.getCurrentList()).getName();
+    }
 
     @android.webkit.JavascriptInterface
     public static void setCurrentAction(String action) {
@@ -322,6 +343,13 @@ public class JavaInterface {
     public static String getCurrentAction() {
         return activity.getCurrentAction();
     }
+
+
+    @android.webkit.JavascriptInterface
+    public static String getLocation() {
+        return activity.getLocation();
+    }
+
 
     public static void runJS(final String scriptSrc) {
         webView.post(new Runnable() {
