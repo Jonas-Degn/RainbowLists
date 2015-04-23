@@ -9,16 +9,22 @@ import java.util.List;
  * Created by Dimitar on 7.4.2015 г..
  */
 public class DatabaseHandler{
-
     private SQLiteDatabase db;
 
+    /**
+     * Constructor for our database handler
+     * @param activity parsed to keep everything in the same activity
+     * (we are simply not experienced with multiple activities and using intents)
+     */
     protected DatabaseHandler(MainActivity activity) {
         db = activity.openOrCreateDatabase("rainbowData", activity.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS items (ID INTEGER PRIMARY KEY AUTOINCREMENT, listID INTEGER, name CHAR(32), amount CHAR(32), isChecked INTEGER);");
         db.execSQL("CREATE TABLE IF NOT EXISTS lists (ID INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(32), type CHAR(8));");
     }
 
-    // A reset method for debugging
+    /**
+     * Reset all data, including data structures
+     */
     protected void reset() {
         db.execSQL("DROP TABLE items");
         db.execSQL("DROP TABLE lists");
@@ -26,14 +32,22 @@ public class DatabaseHandler{
         db.execSQL("CREATE TABLE IF NOT EXISTS lists (ID INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(32), type CHAR(8));");
     }
 
-    //The sql string contains the command to be passed to execSQL();
+    /**
+     * Run whatever sql code is parsed, used for saving, updating and deleting
+     * @param sql is the given sql code
+     */
     protected void save(String sql) {
         db.execSQL(sql);
     }
 
+    /**
+     * Run whatever sql code is parsed, is only used for reading and returns data
+     * @param sql is the given sql code
+     * @return List<List<String>> with every row and column from the sql result
+     */
     protected List<List<String>> load(String sql) {
         Cursor c=db.rawQuery(sql, null);
-        //2-dim Arraylist. getCount() returns ROWS COUNT
+        //2-dim List. getCount() returns ROWS COUNT
         List<List<String>> stringArray = new ArrayList<List<String>>(c.getCount());
 
         for (int i=0; c.moveToNext(); i++){

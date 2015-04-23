@@ -3,27 +3,37 @@ package rainbowworks.rainbowlists;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.util.HashMap;
 import java.util.List;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+
+
 public class JavaInterface {
     static MainActivity activity;
     static WebView webView;
 
+    /**
+     * @android.webkit.JavascriptInterface
+     * Above line means that the given method is callable from the browser through Javascript.
+     * A method without that line is a Java-only method.
+     */
+
+    /**
+     * Constructor for our Java/Javascript interface
+     * @param act parsed to keep everything in the same activity
+     * @param newWebView contains the browser we'll be communicating with
+     */
     public JavaInterface(MainActivity act, WebView newWebView) {
         activity = act;
         webView = newWebView;
@@ -39,7 +49,7 @@ public class JavaInterface {
         webView.addJavascriptInterface(this, "JSInterface");
         webView.setWebChromeClient(new WebChromeClient());
 
-        // DAMN IT MOTHERFUCKER - old phones can't debug :(
+        // DAMN IT, we cannot debug the browser of older phones
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             webView.setWebContentsDebuggingEnabled(true);
         }
@@ -48,11 +58,20 @@ public class JavaInterface {
         }
     }
 
+    /**
+     * Load settings, this feature is not a part of the project
+     * @return String with features
+     */
     @android.webkit.JavascriptInterface
     public static String loadSettings() {
         return "No settings atm";
     }
 
+    /**
+     * Load all lists from the array of RainbowList, which originates from the database
+     * @param type e.g shopping or pantry
+     * @return String with every list and its ID
+     */
     @android.webkit.JavascriptInterface
     public static String loadLists(String type) {
         String foundLists = "";
@@ -74,15 +93,20 @@ public class JavaInterface {
         return foundLists;
     }
 
-
+    /**
+     * Load all items in a given list from the array of RainbowItem, which originates from the database
+     * @param listID is the ID of the given list we want to load
+     * @return String with every item found
+     */
     @android.webkit.JavascriptInterface
     public static String loadItems(int listID) {
         String foundItems = "";
 
+        // if ID is 0 then we are at the item overview, so show every single item
         if (listID == 0) {
             for (HashMap.Entry<Integer, RainbowList> entry : activity.getLists().entrySet()) {
-                for (HashMap.Entry<Integer, Item> entry2 : entry.getValue().getItems().entrySet()){
-                    Item item = entry2.getValue();
+                for (HashMap.Entry<Integer, RainbowItem> entry2 : entry.getValue().getItems().entrySet()){
+                    RainbowItem item = entry2.getValue();
                     if (!item.getName().equals("empty")) {
                         if (foundItems.equals("")) {
                             foundItems += listID + "," + item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + item.getIsChecked();
@@ -93,10 +117,11 @@ public class JavaInterface {
                 }
             }
         }
+        // otherwise only show for the parsed list ID
         else {
             RainbowList currentList = activity.getList(listID);
-            for(HashMap.Entry<Integer, Item> entry : currentList.getItems().entrySet()) {
-                Item item = entry.getValue();
+            for(HashMap.Entry<Integer, RainbowItem> entry : currentList.getItems().entrySet()) {
+                RainbowItem item = entry.getValue();
                 if (!item.getName().equals("empty")) {
                     if (foundItems.equals("")) {
                         foundItems += currentList.getID() + "," + item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + item.getIsChecked();
@@ -110,25 +135,11 @@ public class JavaInterface {
         return foundItems;
     }
 
-    @android.webkit.JavascriptInterface
-    public static String loadItems() {
-        String foundItems = "";
-
-        for (HashMap.Entry<Integer, RainbowList> entry : activity.getLists().entrySet()) {
-            for (HashMap.Entry<Integer, Item> entry2 : entry.getValue().getItems().entrySet()){
-                Item item = entry2.getValue();
-                if (!item.getName().equals("empty")) {
-                    if (foundItems.equals("")) {
-                        foundItems += item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + (item.getIsChecked()?"1":"0");
-                    } else {
-                        foundItems += ";" + item.getID() + "," + item.getName() + "," + item.getQuantity() + "," + (item.getIsChecked()?"1":"0");
-                    }
-                }
-            }
-        }
-        return foundItems;
-    }
-
+    /**
+     * Search for a list by name in the search field
+     * @param search is partial name that a user have typed
+     * @return String with suggestions which matches the search text
+     */
     @android.webkit.JavascriptInterface
     public static String searchLists(String search) {
         String foundLists = "";
@@ -148,34 +159,11 @@ public class JavaInterface {
         return foundLists;
     }
 
-    @android.webkit.JavascriptInterface
-    public static String searchItems(String search) {
-        String foundItems = "";
-        List<List<String>> result = activity.getDBH().load("SELECT * FROM items WHERE name LIKE '%"+search+"%'");
-
-        for(int i = 0; i < result.size(); i++) {
-            if (i > 0) {
-                foundItems += ";";
-            }
-            for (int k = 0; k < result.get(i).size(); k++) {
-                if (k > 0) {
-                    foundItems += ",";
-                }
-                foundItems += result.get(i).get(k);
-            }
-        }
-        return foundItems;
-    }
-
-    @android.webkit.JavascriptInterface
-    public static void createList(String data) {
-        String[] newData = data.split(";");
-        int id = Integer.parseInt(newData[0]);
-        String name = newData[1];
-
-        // Now add this information to the
-    }
-
+    /**
+     * Show a message dialog to the user with any given title and text
+     * @param header is the title which the dialog will contain
+     * @param text is the text which the dialog will contain
+     */
     @android.webkit.JavascriptInterface
     public static void messageDialog(String header, String text) {
         new AlertDialog.Builder(activity)
@@ -183,13 +171,22 @@ public class JavaInterface {
                 .setMessage(text)
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Doesn't do anything for now
+                        // Don't do anything specific when you click Okay
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 
+    /**
+     * Show an input dialog where everything is customizable
+     * @param header is the title which the dialog will contain
+     * @param description is the text which the dialog will contain
+     * @param text is the initial text placed in the input field
+     * @param okButton is the text that the positive button will show
+     * @param cancelButton is the text that the negative button will show
+     * @param action is a string which decides what to do with the given input
+     */
     @android.webkit.JavascriptInterface
     public static void inputDialog(String header, String description, String text, String okButton, String cancelButton, final String action) {
         final EditText input = new EditText(activity);
@@ -286,30 +283,50 @@ public class JavaInterface {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
+    /**
+     * Delete any list which matches the given ID
+     * @param id is the ID of the list to delete
+     */
     @android.webkit.JavascriptInterface
     public static void deleteList(String id) {
         activity.getDBH().save("DELETE FROM lists WHERE id = " + id);
         activity.populateLists();
     }
 
+    /**
+     * Delete any item which matches the given ID
+     * @param id is the ID of the item to delete
+     */
     @android.webkit.JavascriptInterface
     public static void deleteItem(String id) {
         activity.getDBH().save("DELETE FROM items WHERE id = " + id);
         activity.populateLists();
     }
 
+    /**
+     * Markes the given item as checked/selected
+     * @param id is the ID of the item to select
+     */
     @android.webkit.JavascriptInterface
     public static void checkItem(String id) {
         activity.getDBH().save("UPDATE items SET isChecked=1 WHERE id = " + id);
         activity.populateLists();
     }
 
+    /**
+     * Markes the given item as unchecked/deselected
+     * @param id is the ID of the item to deselect
+     */
     @android.webkit.JavascriptInterface
     public static void decheckItem(String id) {
         activity.getDBH().save("UPDATE items SET isChecked=0 WHERE id = " + id);
         activity.populateLists();
     }
 
+    /**
+     * Changes which HTML file is shown in our browser (webview)
+     * @param file is the full filename - abcd.html
+     */
     @android.webkit.JavascriptInterface
     public static void setLocation(String file) {
         activity.setLocation(file);
@@ -338,36 +355,64 @@ public class JavaInterface {
         }
     }
 
-    @android.webkit.JavascriptInterface
-    public static void setCurrentList(int id) {
-        activity.setCurrentList(id);
-    }
-
-    @android.webkit.JavascriptInterface
-    public static int getCurrentList() {
-        return activity.getCurrentList();
-    }
-
-    @android.webkit.JavascriptInterface
-    public static String getCurrentListName() {
-        return activity.getList(activity.getCurrentList()).getName();
-    }
-
-    @android.webkit.JavascriptInterface
-    public static void setCurrentAction(String action) {
-        activity.setCurrentAction(action);
-    }
-
-    @android.webkit.JavascriptInterface
-    public static String getCurrentAction() {
-        return activity.getCurrentAction();
-    }
-
+    /**
+     * Get the name of the currently shown file
+     * @return String name of file
+     */
     @android.webkit.JavascriptInterface
     public static String getLocation() {
         return activity.getLocation();
     }
 
+    /**
+     * A list has been selected, save which list it is
+     * @param id of the selected list
+     */
+    @android.webkit.JavascriptInterface
+    public static void setCurrentList(int id) {
+        activity.setCurrentList(id);
+    }
+
+    /**
+     * Get the ID of the currently selected list
+     * @return int id of the selected list
+     */
+    @android.webkit.JavascriptInterface
+    public static int getCurrentList() {
+        return activity.getCurrentList();
+    }
+
+    /**
+     * Get the name of the currently selected list
+     * @return String name of the list
+     */
+    @android.webkit.JavascriptInterface
+    public static String getCurrentListName() {
+        return activity.getList(activity.getCurrentList()).getName();
+    }
+
+    /**
+     * Sets the current action which we want to interact with back button code
+     * @param action name of what the user is doing
+     */
+    @android.webkit.JavascriptInterface
+    public static void setCurrentAction(String action) {
+        activity.setCurrentAction(action);
+    }
+
+    /**
+     * Get what action the user is doing right now
+     * @return String name of the action
+     */
+    @android.webkit.JavascriptInterface
+    public static String getCurrentAction() {
+        return activity.getCurrentAction();
+    }
+
+    /**
+     * Injects javascript code into the browser, giving us access to manipulate the view from Java
+     * @param scriptSrc is whatever kind of javascript we want to run
+     */
     public static void runJS(final String scriptSrc) {
         webView.post(new Runnable() {
             @Override
@@ -377,12 +422,18 @@ public class JavaInterface {
         });
     }
 
+    /**
+     * Runs the barcode scanner so we can scan a product
+     */
     @android.webkit.JavascriptInterface
     public static void getBarcode() {
         IntentIntegrator integrator = new IntentIntegrator(activity);
         integrator.initiateScan();
     }
 
+    /**
+     * Resets database
+     */
     @android.webkit.JavascriptInterface
     public void resetDB() {
         activity.getDBH().reset();
