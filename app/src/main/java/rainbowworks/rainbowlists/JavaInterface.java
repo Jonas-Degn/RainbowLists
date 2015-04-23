@@ -323,10 +323,7 @@ public class JavaInterface {
         activity.populateLists();
     }
 
-    /**
-     * Changes which HTML file is shown in our browser (webview)
-     * @param file is the full filename - abcd.html
-     */
+
     @android.webkit.JavascriptInterface
     public static void setLocation(String file) {
         activity.setLocation(file);
@@ -335,6 +332,7 @@ public class JavaInterface {
                 activity.runOnUiThread(new Runnable(){
                     public void run() {
                         activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xfff2594b));
+                        activity.setTitle("List overview");
                     }
                 });
                 break;
@@ -342,6 +340,7 @@ public class JavaInterface {
                 activity.runOnUiThread(new Runnable(){
                     public void run() {
                         activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff27a0ab));
+                        activity.setTitle("Item overview");
                     }
                 });
                 break;
@@ -349,6 +348,7 @@ public class JavaInterface {
                 activity.runOnUiThread(new Runnable(){
                     public void run() {
                         activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xffffffff));
+                        activity.setTitle("Settings");
                     }
                 });
                 break;
