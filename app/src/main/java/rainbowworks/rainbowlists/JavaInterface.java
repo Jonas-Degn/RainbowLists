@@ -319,6 +319,15 @@ public class JavaInterface {
                     }
                 });
                 break;
+            case "settings":
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0x16777215));
+                        //activity.getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.white));
+                    }
+                });
+                break;
         }
     }
 
@@ -331,6 +340,7 @@ public class JavaInterface {
     public static int getCurrentList() {
         return activity.getCurrentList();
     }
+
     @android.webkit.JavascriptInterface
     public static String getCurrentListName() {
         return activity.getList(activity.getCurrentList()).getName();
@@ -346,12 +356,10 @@ public class JavaInterface {
         return activity.getCurrentAction();
     }
 
-
     @android.webkit.JavascriptInterface
     public static String getLocation() {
         return activity.getLocation();
     }
-
 
     public static void runJS(final String scriptSrc) {
         webView.post(new Runnable() {
@@ -366,6 +374,10 @@ public class JavaInterface {
     public static void getBarcode() {
         IntentIntegrator integrator = new IntentIntegrator(activity);
         integrator.initiateScan();
+    }
+
+    public void resetDB() {
+        activity.getDBH().reset();
     }
 
 }

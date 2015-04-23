@@ -110,7 +110,6 @@ public class MainActivity extends ActionBarActivity {
         };
 
         dbh = new DatabaseHandler(this);
-        //dbh.reset();
         populateLists();
 
         jsInterface = new JavaInterface(this,(WebView)findViewById(R.id.mainWebView));
