@@ -160,6 +160,16 @@ public class MainActivity extends ActionBarActivity {
     }
 
     /**
+     * Synchronizes the burger and drawer state
+     * @param savedInstanceState the instance to restore
+     */
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    /**
      * Create our options menu from XML, only search is left
      * @param menu the menu to create
      * @return boolean whether the creation went okay
