@@ -290,6 +290,7 @@ public class JavaInterface {
     @android.webkit.JavascriptInterface
     public static void deleteList(String id) {
         activity.getDBH().save("DELETE FROM lists WHERE id = " + id);
+        activity.getDBH().save("DELETE FROM items WHERE listID = " + id);
         activity.populateLists();
     }
 
