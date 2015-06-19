@@ -429,10 +429,12 @@ public class MainActivity extends ActionBarActivity {
      */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanResult != null) {
+        try {
             dbh.save("UPDATE items SET name='"+scanResult.getContents().toString()+"' WHERE name='emptyScan'");
             populateLists();
             JavaInterface.runJS("loadItems()");
+        } catch (NullPointerException e) {
+            dbh.save("DELETE FROM items WHERE name='emptyScan'");
         }
     }
 }
