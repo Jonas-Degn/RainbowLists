@@ -51,16 +51,36 @@ function loadItems() {
 
     setTimeout(function() {
         $(".item_block").on("tap", function(e) {
-            var id = e.target.id;
-            if ($(e.target).find("img")[0].src == "file:///android_asset/www/images/checkbox_unchecked.png") {
-                window.JSInterface.checkItem(id);
-                $(e.target).find("img")[0].src = "file:///android_asset/www/images/checkbox_checked.png";
-                $(e.target).toggleClass("crossedout");
+
+            if ($(e.target).find("img")[0]) {
+                var id = e.target.id;
+                var elem = $(e.target).find("img")[0];
+
+                if (elem.src == "file:///android_asset/www/images/checkbox_unchecked.png") {
+                    window.JSInterface.checkItem(id);
+                    elem.src = "file:///android_asset/www/images/checkbox_checked.png";
+                    $(e.target).toggleClass("crossedout");
+                }
+                else {
+                    window.JSInterface.decheckItem(id);
+                    elem.src = "file:///android_asset/www/images/checkbox_unchecked.png";
+                    $(e.target).toggleClass("crossedout");
+                }
             }
             else {
-                window.JSInterface.decheckItem(id);
-                $(e.target).find("img")[0].src = "file:///android_asset/www/images/checkbox_unchecked.png";
-                $(e.target).toggleClass("crossedout");
+                var id = $(e.target).parent()[0].id;
+                var elem = e.target;
+
+                if (elem.src == "file:///android_asset/www/images/checkbox_unchecked.png") {
+                    window.JSInterface.checkItem(id);
+                    elem.src = "file:///android_asset/www/images/checkbox_checked.png";
+                    $(e.target).parent().toggleClass("crossedout");
+                }
+                else {
+                    window.JSInterface.decheckItem(id);
+                    elem.src = "file:///android_asset/www/images/checkbox_unchecked.png";
+                    $(e.target).parent().toggleClass("crossedout");
+                }
             }
         });
         $(".item_block").on("swipeleft swiperight", function(e) {
