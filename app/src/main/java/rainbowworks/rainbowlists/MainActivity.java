@@ -187,12 +187,12 @@ public class MainActivity extends ActionBarActivity {
      * @return boolean whether the creation went okay
      */
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    public boolean onPrepareOptionsMenu(final Menu menu) {
         register = menu.findItem(R.id.action_search);
 
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setSuggestionsAdapter(mAdapter);
-        searchView.setIconifiedByDefault(false);
+        searchView.setIconified(true);
 
         // Getting selected (clicked) item suggestion
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
@@ -203,13 +203,26 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public boolean onSuggestionClick(int position) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-                int id = searchIDs[position];
-                String name = searchNames[position];
-                String type = searchTypes[position];
-                setCurrentList(id);
-                JavaInterface.runJS("loadPage('itemOverview.html');");
+                if (searchIDs[position] == -1) return false;
+
+                if (getLocation().equals("listOverview")) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                    int id = searchIDs[position];
+                    setCurrentList(id);
+                    JavaInterface.runJS("loadPage('itemOverview.html');");
+                } else if (getLocation().equals("itemOverview")) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                    int id = searchIDs[position];
+                    String name = searchNames[position];
+                    JavaInterface.checkItem(Integer.toString(id));
+                    JavaInterface.runJS("loadPage('itemOverview.html')");
+                    JavaInterface.messageToast(name + " has been checked!");
+                }
+                register.collapseActionView();
+                searchView.setQuery("", false);
+                searchView.setIconified(true);
                 return true;
             }
         });
@@ -225,6 +238,17 @@ public class MainActivity extends ActionBarActivity {
             public boolean onQueryTextChange(String s) {
                 populateAdapter(s);
                 return false;
+            }
+        });
+
+       searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean queryTextFocused) {
+                if (!queryTextFocused) {
+                    register.collapseActionView();
+                    searchView.setQuery("", false);
+                    searchView.setIconified(true);
+                }
             }
         });
         return true;
@@ -386,30 +410,86 @@ public class MainActivity extends ActionBarActivity {
      * @param query of which the user searches something similar
      */
     private void populateAdapter(String query) {
-        final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "listName", "listType" });
-        List<List<String>> search = dbh.load("SELECT * FROM lists WHERE name LIKE '%"+query+"%'");
-        searchIDs = new int[search.size()];
-        searchNames = new String[search.size()];
-        searchTypes = new String[search.size()];
+        if (getLocation().equals("listOverview")) {
+            final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "listName", "listType" });
+            List<List<String>> search = dbh.load("SELECT * FROM lists WHERE name LIKE '%"+query+"%'");
 
-        for(int i = 0; i < search.size(); i++) {
-            for (int k = 0; k < search.get(i).size(); k++) {
-                if (k == 0) {
-                    searchIDs[i] = Integer.parseInt(search.get(i).get(k));
+            if (search.size() > 0) {
+                searchIDs = new int[search.size()];
+                searchNames = new String[search.size()];
+                searchTypes = new String[search.size()];
+
+                for(int i = 0; i < search.size(); i++) {
+                    for (int k = 0; k < search.get(i).size(); k++) {
+                        if (k == 0) {
+                            searchIDs[i] = Integer.parseInt(search.get(i).get(k));
+                        }
+                        else if (k == 1) {
+                            searchNames[i] = search.get(i).get(k);
+                        }
+                        else if (k == 2) {
+                            searchTypes[i] = search.get(i).get(k);
+                        }
+                    }
                 }
-                else if (k == 1) {
-                    searchNames[i] = search.get(i).get(k);
-                }
-                else if (k == 2) {
-                    searchTypes[i] = search.get(i).get(k);
+
+                for (int i=0; i<search.size(); i++) {
+                    c.addRow(new Object[] {searchIDs[i], searchNames[i], searchTypes[i]});
                 }
             }
+            else {
+                searchIDs = new int[1];
+                searchNames = new String[1];
+                searchTypes = new String[1];
+                searchIDs[0] = -1;
+                searchNames[0] = "No list found";
+                searchTypes[0] = "none";
+                c.addRow(new Object[] {searchIDs[0], searchNames[0], searchTypes[0]});
+            }
+            mAdapter.changeCursor(c);
         }
+        else if(getLocation().equals("itemOverview")) {
+            final MatrixCursor ci = new MatrixCursor(new String[]{ BaseColumns._ID, "listName", "listType" });
+            List<List<String>> search = dbh.load("SELECT ID, name, amount, isChecked FROM items WHERE name LIKE '%"+query+"%' AND listID = "+getCurrentList());
 
-        for (int i=0; i<search.size(); i++) {
-            c.addRow(new Object[] {searchIDs[i], searchNames[i], searchTypes[i]});
+            if (search.size() > 0) {
+                searchIDs = new int[search.size()];
+                searchNames = new String[search.size()];
+                searchTypes = new String[search.size()];
+
+                for(int i = 0; i < search.size(); i++) {
+                    for (int k = 0; k < search.get(i).size(); k++) {
+                        if (k == 0) {
+                            searchIDs[i] = Integer.parseInt(search.get(i).get(k));
+                        }
+                        else if (k == 1) {
+                            searchNames[i] = search.get(i).get(k);
+                        }
+                        else if (k == 2) {
+                            searchNames[i] = search.get(i).get(k) + searchNames[i];
+                        }
+                        else if (k == 3) {
+                            searchTypes[i] = search.get(i).get(k);
+                        }
+                    }
+                }
+
+                for (int i=0; i<search.size(); i++) {
+                    ci.addRow(new Object[] {searchIDs[i], searchNames[i], searchTypes[i]});
+                }
+            }
+            else {
+                searchIDs = new int[1];
+                searchNames = new String[1];
+                searchTypes = new String[1];
+                searchIDs[0] = -1;
+                searchNames[0] = "No item found";
+                searchTypes[0] = "";
+                ci.addRow(new Object[] {searchIDs[0], searchNames[0], searchTypes[0]});
+            }
+
+            mAdapter.changeCursor(ci);
         }
-        mAdapter.changeCursor(c);
     }
 
     /**
