@@ -96,14 +96,14 @@ function prepareButtons2() {
         $(".bottom_piece").animate({bottom: "-14em"});
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");
-        setTimeout(function() {window.JSInterface.inputDialog("Add a new product", "Input product as amount, type and name. e.g 1 kg Flour (no special chars):", "", "Add", "Cancel", "addProduct");}, 400);
+        setTimeout(function() {window.JSInterface.inputDialog("Add a new product", "Input product as amount, type and name. e.g 1 kg Flour (no special characters):", "", "Add", "Cancel", "addProduct");}, 400);
     });
     $("#rightButton2").on("tap", function() {
         $(".bottom_piece").animate({bottom: "-14em"});
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");
         setTimeout(function() {
-            window.JSInterface.inputDialog("Set amount", "Input amount and type. e.g 1 kg, 1 liter (no special chars):", "", "Continue", "Cancel", "scanProduct");
+            window.JSInterface.inputDialog("Set amount", "Input amount and type. e.g 1 kg, 1 liter (no special characters):", "", "Continue", "Cancel", "scanProduct");
         });
     });
 
