@@ -12,6 +12,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
@@ -281,6 +282,19 @@ public class JavaInterface {
         input.requestFocus();
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    /**
+     * Make a long toast with given text
+     * @param text to toast
+     */
+    @android.webkit.JavascriptInterface
+    public static void messageToast(final String text) {
+        activity.runOnUiThread(new Thread() {
+            public void run() {
+                Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**

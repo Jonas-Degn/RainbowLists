@@ -142,6 +142,7 @@ div.list_block{
 	font-size: 26px;
 	line-height: 30px;
 	padding:10px 0 10px 40px;
+	word-wrap: break-word;
 }
 div.item_block{
 	font-family: Arial;
@@ -149,6 +150,7 @@ div.item_block{
 	font-size: 26px;
 	line-height: 40px;
 	padding:10px 0 10px 40px;
+	word-wrap: break-word;
 }
 div.item_block img {
 	width: 26px;
