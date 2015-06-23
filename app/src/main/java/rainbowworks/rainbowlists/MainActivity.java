@@ -509,8 +509,12 @@ public class MainActivity extends ActionBarActivity {
      */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        String result = scanResult.getContents().toString();
+        if (result.equals("5741000124024")) {
+            result = "50cl Faxe Kondi";
+        }
         try {
-            dbh.save("UPDATE items SET name='"+scanResult.getContents().toString()+"' WHERE name='emptyScan'");
+            dbh.save("UPDATE items SET name='"+result+"' WHERE name='emptyScan'");
             populateLists();
             JavaInterface.runJS("loadItems()");
         } catch (NullPointerException e) {
