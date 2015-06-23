@@ -510,9 +510,7 @@ public class MainActivity extends ActionBarActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         String result = scanResult.getContents().toString();
-        if (result.equals("5741000124024")) {
-            result = "50cl Faxe Kondi";
-        }
+        result = result.equals("5741000124024")?"50cl Faxe Kondi":result;
         try {
             dbh.save("UPDATE items SET name='"+result+"' WHERE name='emptyScan'");
             populateLists();
