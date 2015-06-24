@@ -217,14 +217,25 @@ public class JavaInterface {
                             case "newShoppingList":
                                 // Save in database new list with name 'input.getText().toString()'
                                 // Add to HashMap 'lists' in MainActivity
-                                activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('" + input.getText().toString() + "','shopping')");
-                                activity.populateLists();
+                                if (input.getText().toString().length() > 1) {
+                                    activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('" + input.getText().toString() + "','shopping')");
+                                    activity.populateLists();
+                                }
+                                else {
+                                    messageToast("The shopping list name was empty, try again.");
+                                }
+
                                 break;
                             case "newPantryList":
                                 // Save in database new list with name 'input.getText().toString()';
                                 // Add to HashMap 'lists' in MainActivity
-                                activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('" + input.getText().toString() + "','pantry')");
-                                activity.populateLists();
+                                if (input.getText().toString().length() > 1) {
+                                    activity.getDBH().save("INSERT INTO lists (name,type) VALUES ('" + input.getText().toString() + "','pantry')");
+                                    activity.populateLists();
+                                }
+                                else {
+                                    messageToast("The pantry list name was empty, try again.");
+                                }
                                 break;
                             case "editShoppingList":
                                 // Update in database list with old name 'text' name 'input.getText().toString()'
@@ -254,15 +265,21 @@ public class JavaInterface {
                                     // 1 name
                                     name = input.getText().toString();
                                 }
-                                activity.getDBH().save("INSERT INTO items (listID,name,amount,isChecked) VALUES ("+activity.getCurrentList()+",'" + name + "','" + amount + "',0)");
-                                activity.populateLists();
+
+                                if (name.length() > 1) {
+                                    activity.getDBH().save("INSERT INTO items (listID,name,amount,isChecked) VALUES ("+activity.getCurrentList()+",'" + name + "','" + amount + "',0)");
+                                    activity.populateLists();
+                                }
+                                else {
+                                    messageToast("The product name was empty, try again.");
+                                }
                                 break;
                             case "scanProduct":
                                 // Save in database new product with name 'input.getText().toString()';
                                 // Add to HashMap 'lists' in MainActivity
                                 amount = input.getText().toString();
-                                activity.getDBH().save("INSERT INTO items (listID,name,amount,isChecked) VALUES ("+activity.getCurrentList()+",'emptyScan','" + amount + "',0)");
-                                getBarcode();
+                                activity.getDBH().save("UPDATE items SET amount='"+amount+"' WHERE amount='scanning'");
+                                activity.populateLists();
                                 break;
                         }
                         runJS("loadPage('" + activity.getLocation() + ".html')");
@@ -273,6 +290,14 @@ public class JavaInterface {
                         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                         dialog.cancel();
+                        switch (action) {
+                            case "scanProduct":
+                                // Save in database new product with name 'input.getText().toString()';
+                                // Add to HashMap 'lists' in MainActivity
+                                activity.getDBH().save("UPDATE items SET amount='' WHERE amount='scanning'");
+                                activity.populateLists();
+                                break;
+                        }
                         runJS("loadPage('"+activity.getLocation()+".html')");
                     }
                 })
@@ -453,7 +478,7 @@ public class JavaInterface {
     public void resetDB() {
         activity.getDBH().reset();
         activity.populateLists();
-        messageDialog("Reset","All your lists and items have been removed.");
+        messageDialog("Remove","All your lists and items have been removed.");
     }
 
 }

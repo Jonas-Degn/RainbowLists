@@ -18,12 +18,10 @@ function loadLists() {
         }
     }
     else {
-        $content.html('<img src="images/hidden.gif" class="hiddenCool" /><img src="images/rainbow^^.png" class="noLists" alt="Create a new list by clicking the plus"/>');
+        $content.html('<img src="images/rainbow^^.png" class="noLists" alt="Create a new list by clicking the plus"/>');
         setTimeout(function() {
-        $(".hiddenCool").animate({left: "-100%"}, 1000, function() {
             $(".noLists").show("scale",{}, 400);
-        });
-        }, 500);
+        }, 250);
     }
 
 

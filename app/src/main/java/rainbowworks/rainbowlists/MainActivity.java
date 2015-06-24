@@ -511,12 +511,7 @@ public class MainActivity extends ActionBarActivity {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         String result = scanResult.getContents().toString();
         result = result.equals("5741000124024")?"50cl Faxe Kondi":result;
-        try {
-            dbh.save("UPDATE items SET name='"+result+"' WHERE name='emptyScan'");
-            populateLists();
-            JavaInterface.runJS("loadItems()");
-        } catch (NullPointerException e) {
-            dbh.save("DELETE FROM items WHERE name='emptyScan'");
-        }
+        dbh.save("INSERT INTO items (listID,name,amount,isChecked) VALUES (" + getCurrentList() + ",'" + result + "','scanning',0)");
+        JavaInterface.inputDialog("Set amount", "Input amount and type. e.g 1 kg, 1 liter (no special characters):", "", "Continue", "Cancel", "scanProduct");
     }
 }

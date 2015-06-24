@@ -15,12 +15,10 @@ function loadItems() {
         $itemsContent = $("#itemsContent");
     }
     else {
-        $content.html('<img src="images/hidden.gif" class="hiddenCool" /><img src="images/rainbow_item^^.png" class="noLists" alt="Add a new item by clicking the plus"/>');
+        $content.html('<img src="images/rainbow_item^^.png" class="noLists" alt="Add a new item by clicking the plus"/>');
         setTimeout(function() {
-        $(".hiddenCool").animate({left: "-100%"}, 1000, function() {
             $(".noLists").show("scale",{}, 400);
-        });
-        }, 500);
+        }, 250);
         return;
     }
 
@@ -123,7 +121,7 @@ function prepareButtons2() {
         $(".bot_curve").unbind("tap");
         $(document).unbind("tap");
         setTimeout(function() {
-            window.JSInterface.inputDialog("Set amount", "Input amount and type. e.g 1 kg, 1 liter (no special characters):", "", "Continue", "Cancel", "scanProduct");
+            window.JSInterface.getBarcode();
         });
     });
 

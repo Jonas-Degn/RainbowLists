@@ -2,7 +2,7 @@
 
 .ui-mobile .ui-page-active {
     overflow-x: auto !important;
-    height: 100%;
+    min-height: 100%;
 }
 .ui-page {
     background-color: #ffffff;
@@ -64,6 +64,7 @@ div.top_curve img{
 	top: 0;
 	width:100%;
 	height:auto;
+	z-index: 1;
 }
 div.main_area{
 	width: 100%;
